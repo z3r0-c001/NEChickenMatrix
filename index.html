@@ -1,10 +1,10 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choosing Your New England Flock</title>
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico"> <!-- Favicon added here -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,77 +36,6 @@
         @media (max-width: 768px) {
             /* No fixed height needed here, handled by Tailwind */
         }
-        /* Flowchart node styling: main blocks */
-        .flowchart-node {
-            border: 2px solid #FF8C00; /* Dark Orange */
-            background-color: #fff;
-            padding: 1.2rem; /* Increased padding */
-            border-radius: 0.75rem; /* More rounded corners */
-            text-align: center;
-            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15), 0 3px 6px -3px rgba(0, 0, 0, 0.1); /* Stronger shadow */
-            width: 90%;
-            max-width: 280px; /* Slightly larger nodes */
-            font-weight: 700; /* Bolder text */
-            color: #333; /* Darker text for better contrast */
-        }
-        /* Flowchart connector line */
-        .flowchart-connector {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 60px; /* Taller connectors */
-            width: 3px; /* Thicker line */
-            background-color: #FF8C00; /* Dark Orange */
-            margin: 0 auto;
-            position: relative; /* For arrow positioning */
-        }
-        /* Flowchart connector arrow */
-        .flowchart-connector::after {
-            content: '▼';
-            color: #FF8C00; /* Dark Orange */
-            font-size: 1.8rem; /* Larger arrow */
-            position: absolute;
-            transform: translateY(30px); /* Adjust arrow position */
-            background-color: transparent; /* Changed to transparent to blend with image background */
-            padding: 0 7px; /* Larger padding for arrow */
-        }
-        /* Horizontal line for branches in flowchart */
-        .flowchart-line {
-            flex-grow: 1;
-            height: 3px; /* Thicker line */
-            background-color: #FF8C00; /* Dark Orange */
-        }
-        /* Vertical line for branches in flowchart */
-        .flowchart-branch::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: -30px; /* Adjusted position */
-            height: 30px; /* Adjusted height */
-            width: 3px; /* Thicker line */
-            background-color: #FF8C00; /* Dark Orange */
-        }
-        /* Left horizontal line for branches */
-        .flowchart-branch-left::after {
-            content: '';
-            position: absolute;
-            top: -30px; /* Adjusted position */
-            left: 0;
-            width: 50%;
-            height: 3px; /* Thicker line */
-            background-color: #FF8C00; /* Dark Orange */
-        }
-        /* Right horizontal line for branches */
-        .flowchart-branch-right::after {
-            content: '';
-            position: absolute;
-            top: -30px; /* Adjusted position */
-            right: 0;
-            width: 50%;
-            height: 3px; /* Thicker line */
-            background-color: #FF8C00; /* Dark Orange */
-        }
-        /* Styling for egg color dots */
         .egg-color-dot {
             display: inline-block;
             width: 14px; /* Slightly larger */
@@ -139,127 +68,41 @@
             border-color: #FF6F00; /* Dark Orange border on focus */
         }
 
-        /* --- NEW DECISION TREE STYLES --- */
-        /* Connector Path */
-        .decision-path {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            height: 3.5rem; /* Reduced space between nodes */
-            padding-bottom: 0.5rem;
-        }
-
-        .decision-path .path-line,
-        .decision-path-down .path-line-down {
-            height: 100%;
-            width: 4px;
-            background-color: #d1d5db; /* Light gray line */
-            border-radius: 9999px; /* Full rounded */
-        }
-
-        .decision-path .path-circle,
-        .decision-path-down .path-circle-down {
-            width: 1.5rem;
-            height: 1.5rem;
-            background-color: #f3f4f6; /* Lighter gray circle */
-            border: 4px solid #d1d5db; /* Gray border */
-            border-radius: 9999px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 10;
-        }
-
-        /* For vertical connectors in branches */
-        .decision-path-down {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            height: 2rem; /* Reduced height */
-            padding-bottom: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .decision-node {
+        /* --- New Interactive Guide Styles --- */
+        .guide-step {
+            background-color: #fff;
+            padding: 2.5rem; /* Increased padding */
+            border-radius: 1rem; /* More rounded corners */
+            box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15), 0 3px 6px -3px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
             text-align: center;
-            border: 2px solid;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
+            margin: 0 auto; /* Center the block */
+            border-top: 8px solid; /* Top border for accent */
         }
 
-        .decision-node:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        .guide-step button {
+            transition: all 0.2s ease-in-out;
+            transform: translateY(0);
         }
 
-        .decision-node-branch {
-            text-align: center;
-            border: 2px solid;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
+        .guide-step button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
         
-        .decision-node-branch:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 15px -4px rgba(0, 0, 0, 0.15);
-        }
-        
-        .decision-node-sub-branch {
-            text-align: center;
-            border: 2px solid;
-            transition: all 0.3s ease-in-out;
-            cursor: pointer;
-        }
-        
-        .decision-node-sub-branch:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 15px -4px rgba(0, 0, 0, 0.15);
-        }
+        /* Specific colors for buttons based on their purpose */
+        #goal-eggs-btn { border-color: #1D8A99; background-color: #1D8A99; }
+        #goal-meat-btn { border-color: #FF6F00; background-color: #FF6F00; }
+        #meat-eggs-btn { border-color: #FF6F00; background-color: #FF6F00; }
+        #meat-fast-btn { border-color: #2F4F4F; background-color: #2F4F4F; }
+        .result-box.layer { border-color: #1D8A99; background-color: #1D8A99; }
+        .result-box.dual { border-color: #FF6F00; background-color: #FF6F00; }
+        .result-box.meat { border-color: #2F4F4F; background-color: #2F4F4F; }
+        .reset-button { border-color: #8B0000; background-color: #8B0000; }
 
-        .decision-node-final {
-            text-align: center;
-            transition: all 0.3s ease-in-out;
-        }
-        
-        /* Media query for horizontal layout on larger screens */
-        @media (min-width: 768px) {
-            .decision-branch-wrapper {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: flex-start;
-            }
-            
-            .decision-branch-wrapper > div {
-                position: relative;
-            }
-            
-            .decision-branch-wrapper::before {
-                content: '';
-                position: absolute;
-                top: -2rem;
-                left: 50%;
-                width: 4px;
-                height: 2rem;
-                background-color: #d1d5db;
-                transform: translateX(-50%);
-            }
-            
-            .decision-branch-wrapper::after {
-                content: '';
-                position: absolute;
-                top: -2rem;
-                left: 50%;
-                width: 60%; /* Adjust as needed */
-                height: 4px;
-                background-color: #d1d5db;
-                transform: translateX(-50%);
-            }
-
-            .decision-branch-wrapper .decision-path-down {
-                height: 5rem;
-            }
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
@@ -352,80 +195,44 @@
         <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#8B0000] drop-shadow-sm">Which Flock is For You?</h2>
             <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-12 leading-relaxed font-semibold text-center">Answer these simple questions to find the breed category that best matches your homesteading goals.</p>
-            <div class="flex flex-col items-center">
-                <!-- Step 1: Main Question -->
-                <div class="decision-node bg-white border-[#8B0000] p-6 rounded-2xl shadow-lg w-full max-w-md">
-                    <h3 class="text-3xl font-extrabold text-gray-900">What's your homestead goal?</h3>
-                    <p class="text-lg text-gray-700 font-semibold">Choose your top priority for your flock.</p>
+            
+            <div id="decision-guide" class="flex flex-col items-center">
+                <!-- Step 1: Main Question and Buttons -->
+                <div id="step1" class="guide-step border-[#8B0000]">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-6">What's your homestead goal?</h3>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button id="goal-eggs-btn" class="text-white font-extrabold py-4 px-8 rounded-lg text-xl shadow-md">Tons of Eggs!</button>
+                        <button id="goal-meat-btn" class="text-white font-extrabold py-4 px-8 rounded-lg text-xl shadow-md">Meat & Self-Sufficiency</button>
+                    </div>
                 </div>
 
-                <!-- Connector -->
-                <div class="decision-path">
-                    <div class="path-line"></div>
-                    <div class="path-circle"></div>
+                <!-- Step 2: Meat Branching Question and Buttons (Initially hidden) -->
+                <div id="step2-meat" class="guide-step border-[#FF6F00] hidden mt-10">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-6">Do you want eggs from your meat birds too, or just fast growth?</h3>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button id="meat-eggs-btn" class="text-white font-extrabold py-4 px-8 rounded-lg text-xl shadow-md">I want eggs too!</button>
+                        <button id="meat-fast-btn" class="text-white font-extrabold py-4 px-8 rounded-lg text-xl shadow-md">Fastest growth is key!</button>
+                    </div>
+                    <button id="reset-btn-step2" class="reset-button text-white font-bold py-2 px-4 rounded-full text-sm mt-8">Start Over</button>
                 </div>
 
-                <!-- Step 2: Branching Decisions -->
-                <div class="w-full flex flex-col md:flex-row justify-around items-stretch my-6">
-                    <!-- Left Branch: Eggs -->
-                    <div class="flex flex-col items-center flex-1 p-4 md:p-8 relative">
-                        <div class="decision-node-branch bg-gray-50 border-[#1D8A99] p-6 rounded-2xl shadow-md w-full max-w-sm hover:scale-105 transition-transform duration-300">
-                            <h4 class="text-2xl font-black text-[#1D8A99]">Tons of Eggs!</h4>
-                        </div>
-                        <!-- Connector Down from Branch -->
-                        <div class="decision-path-down">
-                            <div class="path-line-down"></div>
-                            <div class="path-circle-down"></div>
-                        </div>
-                        <!-- Final Node for Eggs -->
-                        <div class="decision-node-final bg-[#1D8A99] text-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8">
-                            <h4 class="text-2xl font-black">Your Best Fit: Layer Breeds</h4>
-                            <p class="text-lg text-white opacity-95 font-semibold">Consider: Golden Comet, Leghorn, Rhode Island Red</p>
-                        </div>
-                    </div>
+                <!-- Results (Initially hidden) -->
+                <div id="result-layer" class="result-box layer text-white p-8 rounded-2xl shadow-xl hidden mt-10 w-full max-w-md">
+                    <h4 class="text-3xl font-black mb-3">Your Best Fit: Layer Breeds</h4>
+                    <p class="text-xl text-white opacity-95 font-semibold leading-relaxed">Consider: Golden Comet, Leghorn, Rhode Island Red</p>
+                    <button id="reset-btn-layer" class="reset-button text-white font-bold py-2 px-4 rounded-full text-sm mt-8">Start Over</button>
+                </div>
 
-                    <!-- Right Branch: Meat -->
-                    <div class="flex flex-col items-center flex-1 p-4 md:p-8 relative">
-                        <div class="decision-node-branch bg-gray-50 border-[#FF6F00] p-6 rounded-2xl shadow-md w-full max-w-sm hover:scale-105 transition-transform duration-300">
-                            <h4 class="text-2xl font-black text-[#FF6F00]">Meat & Self-Sufficiency</h4>
-                        </div>
-                        <!-- Connector Down from Branch -->
-                        <div class="decision-path-down">
-                            <div class="path-line-down"></div>
-                            <div class="path-circle-down"></div>
-                        </div>
-                        <!-- Sub-branching from Meat -->
-                        <div class="w-full flex flex-col md:flex-row justify-around items-stretch mt-8">
-                            <!-- Sub-Branch Left: Eggs too -->
-                            <div class="flex flex-col items-center flex-1 p-4">
-                                <div class="decision-node-sub-branch bg-white border-[#FF6F00] p-5 rounded-xl shadow-md w-full max-w-[200px] hover:scale-105 transition-transform duration-300">
-                                    <p class="text-xl font-bold text-[#FF6F00] leading-tight text-center">"I want eggs too!"</p>
-                                </div>
-                                <div class="decision-path-down">
-                                    <div class="path-line-down"></div>
-                                    <div class="path-circle-down"></div>
-                                </div>
-                                <div class="decision-node-final bg-[#FF6F00] text-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8">
-                                    <h4 class="text-2xl font-black">Go Dual-Purpose</h4>
-                                    <p class="text-lg text-white opacity-95 font-semibold">Consider: Wyandotte, Plymouth Rock, Orpington</p>
-                                </div>
-                            </div>
-                            <!-- Sub-Branch Right: Fast Growth -->
-                            <div class="flex flex-col items-center flex-1 p-4">
-                                <div class="decision-node-sub-branch bg-white border-[#2F4F4F] p-5 rounded-xl shadow-md w-full max-w-[200px] hover:scale-105 transition-transform duration-300">
-                                    <p class="text-xl font-bold text-[#2F4F4F] leading-tight text-center">"Fastest growth is key!"</p>
-                                </div>
-                                <div class="decision-path-down">
-                                    <div class="path-line-down"></div>
-                                    <div class="path-circle-down"></div>
-                                </div>
-                                <div class="decision-node-final bg-[#2F4F4F] text-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8">
-                                    <h4 class="text-2xl font-black">Choose Meat Breeds</h4>
-                                    <p class="text-lg text-white opacity-95 font-semibold">Consider: Cornish Cross, Freedom Ranger</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="result-dual" class="result-box dual text-white p-8 rounded-2xl shadow-xl hidden mt-10 w-full max-w-md">
+                    <h4 class="text-3xl font-black mb-3">Go Dual-Purpose</h4>
+                    <p class="text-xl text-white opacity-95 font-semibold leading-relaxed">Consider: Wyandotte, Plymouth Rock, Orpington</p>
+                    <button id="reset-btn-dual" class="reset-button text-white font-bold py-2 px-4 rounded-full text-sm mt-8">Start Over</button>
+                </div>
+
+                <div id="result-meat" class="result-box meat text-white p-8 rounded-2xl shadow-xl hidden mt-10 w-full max-w-md">
+                    <h4 class="text-3xl font-black mb-3">Choose Meat Breeds</h4>
+                    <p class="text-xl text-white opacity-95 font-semibold leading-relaxed">Consider: Cornish Cross, Freedom Ranger</p>
+                    <button id="reset-btn-meat" class="reset-button text-white font-bold py-2 px-4 rounded-full text-sm mt-8">Start Over</button>
                 </div>
             </div>
         </section>
@@ -921,7 +728,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -1007,7 +815,8 @@
                             cornerRadius: 8,
                         }
                     }
-                });
+                }
+            });
         }
 
 
@@ -1202,7 +1011,6 @@
          * @returns {string} Hex color code.
          */
         function getEggColorHex(colorName) {
-
             switch (colorName.toLowerCase()) {
                 case 'brown': return '#8B4513'; // SaddleBrown
                 case 'dark brown': return '#654321'; // Darker brown
@@ -1246,121 +1054,178 @@
 
 
         // --- Event Listeners and Initial Load ---
-        // Initialize Charts
-        initEggLayersChart();
-        initDualPurposeChart();
-        initMeatProducersChart();
-        initWeightDistributionChart();
 
-        // Populate breed dropdowns initially
-        populateBreedSelects();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Charts
+            initEggLayersChart();
+            initDualPurposeChart();
+            initMeatProducersChart();
+            initWeightDistributionChart();
 
-        // Flock Builder Event Listeners
-        const addBirdBtn = document.getElementById('addBirdBtn');
-        const breedSelectFlock = document.getElementById('breedSelect');
-        const quantityInput = document.getElementById('quantityInput');
-        const resetFlockBtn = document.getElementById('resetFlockBtn');
-        const customBreedForm = document.getElementById('customBreedForm');
-        const breedCharacteristicsSelect = document.getElementById('breedCharacteristicsSelect');
+            // Populate breed dropdowns initially
+            populateBreedSelects();
+
+            // Flock Builder Event Listeners
+            const addBirdBtn = document.getElementById('addBirdBtn');
+            const breedSelectFlock = document.getElementById('breedSelect');
+            const quantityInput = document.getElementById('quantityInput');
+            const resetFlockBtn = document.getElementById('resetFlockBtn');
+            const customBreedForm = document.getElementById('customBreedForm');
+            const breedCharacteristicsSelect = document.getElementById('breedCharacteristicsSelect');
 
 
-        addBirdBtn.addEventListener('click', () => {
-            const selectedBreed = breedSelectFlock.value;
-            const quantity = parseInt(quantityInput.value);
+            addBirdBtn.addEventListener('click', () => {
+                const selectedBreed = breedSelectFlock.value;
+                const quantity = parseInt(quantityInput.value);
 
-            if (selectedBreed && quantity > 0) {
-                const existingBirdIndex = currentFlock.findIndex(bird => bird.breed === selectedBreed);
-                if (existingBirdIndex > -1) {
-                    currentFlock[existingBirdIndex].quantity += quantity;
+                if (selectedBreed && quantity > 0) {
+                    const existingBirdIndex = currentFlock.findIndex(bird => bird.breed === selectedBreed);
+                    if (existingBirdIndex > -1) {
+                        currentFlock[existingBirdIndex].quantity += quantity;
+                    } else {
+                        currentFlock.push({ breed: selectedBreed, quantity: quantity });
+                    }
+                    renderFlockList();
+                    calculateProduction();
+                    calculateEconomics();
                 } else {
-                    currentFlock.push({ breed: selectedBreed, quantity: quantity });
+                    console.warn("Please select a breed and enter a valid quantity.");
                 }
+            });
+
+            resetFlockBtn.addEventListener('click', () => {
+                currentFlock = [];
                 renderFlockList();
                 calculateProduction();
                 calculateEconomics();
-            } else {
-                console.warn("Please select a breed and enter a valid quantity.");
-            }
-        });
+            });
 
-        resetFlockBtn.addEventListener('click', () => {
-            currentFlock = [];
+            // Economics Input Change Listeners
+            const economicInputs = document.querySelectorAll('#flockEconomics input[type="number"]');
+            economicInputs.forEach(input => {
+                input.addEventListener('input', calculateEconomics);
+            });
+
+            // Custom Breed Form Submission
+            customBreedForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                const name = document.getElementById('customBreedName').value.trim();
+                const type = document.getElementById('customBreedType').value;
+                const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
+                const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
+                const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
+                const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
+                const eggColor = document.getElementById('customBreedEggColor').value.trim();
+                // For custom breeds, set a generic local image path.
+                const imageUrl = 'https://placehold.co/100x100?text=Custom+Breed'; 
+
+                if (name && !breedData[name]) {
+                    breedData[name] = {
+                        type: type,
+                        avgEggs: eggs,
+                        weightHen: henWeight,
+                        weightRooster: roosterWeight,
+                        slaughterAge: slaughterAge,
+                        eggColor: eggColor || null,
+                        imageUrl: imageUrl // Add the image URL for custom breeds
+                    };
+
+                    populateBreedSelects(); // Re-populate dropdowns with new breed
+                    // Optionally, select the newly added breed in both dropdowns
+                    breedSelectFlock.value = name;
+                    breedCharacteristicsSelect.value = name;
+                    displayBreedCharacteristics(name); // Display the new custom breed
+
+                    // Clear form fields
+                    customBreedForm.reset();
+                    document.getElementById('customBreedEggs').value = "0";
+                    document.getElementById('customBreedWeightHen').value = "0";
+                    document.getElementById('customBreedWeightRooster').value = "0";
+                    document.getElementById('customBreedSlaughterAge').value = "";
+                    
+                    // Re-render charts to include the new breed if applicable
+                    initEggLayersChart();
+                    initDualPurposeChart();
+                    initMeatProducersChart();
+                    initWeightDistributionChart();
+
+                    // Update production/economics if the custom breed is added to the flock
+                    calculateProduction();
+                    calculateEconomics();
+                    // Using alert here for simplicity, but in a real app, use a custom modal.
+                    alert(`Custom breed "${name}" added successfully! You can now add it to your flock.`); 
+                } else if (breedData[name]) {
+                    alert(`Breed "${name}" already exists! Please choose a unique name.`);
+                } else {
+                    alert("Please fill in all required fields for your custom breed.");
+                }
+            });
+
+            // Event listener for breed characteristics dropdown change
+            breedCharacteristicsSelect.addEventListener('change', (event) => {
+                displayBreedCharacteristics(event.target.value);
+            });
+
+
+            // Initial render of flock and calculations (will show placeholders)
             renderFlockList();
             calculateProduction();
             calculateEconomics();
-        });
 
-        // Economics Input Change Listeners
-        const economicInputs = document.querySelectorAll('#flockEconomics input[type="number"]');
-        economicInputs.forEach(input => {
-            input.addEventListener('input', calculateEconomics);
-        });
+            // --- Interactive Guide Logic ---
+            const step1 = document.getElementById('step1');
+            const step2Meat = document.getElementById('step2-meat');
+            const resultLayer = document.getElementById('result-layer');
+            const resultDual = document.getElementById('result-dual');
+            const resultMeat = document.getElementById('result-meat');
 
-        // Custom Breed Form Submission
-        customBreedForm.addEventListener('submit', (event) => {
-            event.preventDefault(); // Prevent default form submission
+            const goalEggsBtn = document.getElementById('goal-eggs-btn');
+            const goalMeatBtn = document.getElementById('goal-meat-btn');
+            const meatEggsBtn = document.getElementById('meat-eggs-btn');
+            const meatFastBtn = document.getElementById('meat-fast-btn');
+            const resetBtns = document.querySelectorAll('.reset-button');
 
-            const name = document.getElementById('customBreedName').value.trim();
-            const type = document.getElementById('customBreedType').value;
-            const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
-            const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
-            const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
-            const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
-            const eggColor = document.getElementById('customBreedEggColor').value.trim();
-            // For custom breeds, set a generic local image path.
-            const imageUrl = 'https://placehold.co/100x100?text=Custom+Breed'; 
-
-            if (name && !breedData[name]) {
-                breedData[name] = {
-                    type: type,
-                    avgEggs: eggs,
-                    weightHen: henWeight,
-                    weightRooster: roosterWeight,
-                    slaughterAge: slaughterAge,
-                    eggColor: eggColor || null,
-                    imageUrl: imageUrl // Add the image URL for custom breeds
-                };
-
-                populateBreedSelects(); // Re-populate dropdowns with new breed
-                // Optionally, select the newly added breed in both dropdowns
-                breedSelectFlock.value = name;
-                breedCharacteristicsSelect.value = name;
-                displayBreedCharacteristics(name); // Display the new custom breed
-
-                // Clear form fields
-                customBreedForm.reset();
-                document.getElementById('customBreedEggs').value = "0";
-                document.getElementById('customBreedWeightHen').value = "0";
-                document.getElementById('customBreedWeightRooster').value = "0";
-                document.getElementById('customBreedSlaughterAge').value = "";
-                
-                // Re-render charts to include the new breed if applicable
-                initEggLayersChart();
-                initDualPurposeChart();
-                initMeatProducersChart();
-                initWeightDistributionChart();
-
-                // Update production/economics if the custom breed is added to the flock
-                calculateProduction();
-                calculateEconomics();
-                // Using alert here for simplicity, but in a real app, use a custom modal.
-                alert(`Custom breed "${name}" added successfully! You can now add it to your flock.`); 
-            } else if (breedData[name]) {
-                alert(`Breed "${name}" already exists! Please choose a unique name.`);
-            } else {
-                alert("Please fill in all required fields for your custom breed.");
+            function hideAllStepsAndResults() {
+                step1.classList.add('hidden');
+                step2Meat.classList.add('hidden');
+                resultLayer.classList.add('hidden');
+                resultDual.classList.add('hidden');
+                resultMeat.classList.add('hidden');
             }
-        });
 
-        // Event listener for breed characteristics dropdown change
-        breedCharacteristicsSelect.addEventListener('change', (event) => {
-            displayBreedCharacteristics(event.target.value);
-        });
+            function showStep1() {
+                hideAllStepsAndResults();
+                step1.classList.remove('hidden');
+            }
 
-        // Initial render of flock and calculations (will show placeholders)
-        renderFlockList();
-        calculateProduction();
-        calculateEconomics();
+            goalEggsBtn.addEventListener('click', () => {
+                hideAllStepsAndResults();
+                resultLayer.classList.remove('hidden');
+            });
+
+            goalMeatBtn.addEventListener('click', () => {
+                hideAllStepsAndResults();
+                step2Meat.classList.remove('hidden');
+            });
+
+            meatEggsBtn.addEventListener('click', () => {
+                hideAllStepsAndResults();
+                resultDual.classList.remove('hidden');
+            });
+
+            meatFastBtn.addEventListener('click', () => {
+                hideAllStepsAndResults();
+                resultMeat.classList.remove('hidden');
+            });
+
+            resetBtns.forEach(button => {
+                button.addEventListener('click', showStep1);
+            });
+
+            // Show the first step on load
+            showStep1();
+        });
     </script>
 </body>
 </html>
