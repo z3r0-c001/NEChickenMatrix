@@ -454,12 +454,11 @@
         };
 
         let currentFlock = []; // Array to store { breed: 'BreedName', quantity: X } objects
-        let meatPriceLb = 0; // Global variable for meat price per lb
 
         // --- Chart Initialization Functions ---
 
         /**
-         * Initializes the Egg Layers Chart.
+         * Initializes the Egg Layers Bar Chart.
          */
         function initEggLayersChart() {
             // Filter for all breeds that lay eggs (Layer or Dual-Purpose)
@@ -532,7 +531,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -640,7 +640,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -742,7 +743,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -828,7 +830,8 @@
                             cornerRadius: 8,
                         }
                     }
-                });
+                }
+            });
         }
 
 
@@ -920,24 +923,22 @@
         }
 
         /**
-         * Calculates and displays total egg and meat production.
+         * Calculates and displays total egg and meat production (quantities, not monetary value).
          */
         function calculateProduction() {
             let totalEggsPerYear = 0;
-            let totalMeatPerYear = 0; // In lbs
+            let totalMeatWeightProduced = 0; // Renamed for clarity to reflect weight, not value
 
             currentFlock.forEach(bird => {
                 const breed = breedData[bird.breed];
                 if (breed) {
-                    // Eggs: count if type includes 'Layer' or 'Dual' (case-insensitive)
-                    if (breed.avgEggs &&
-                        (/layer/i.test(breed.type) || /dual/i.test(breed.type))) {
+                    // Calculate eggs for Layer and Dual-Purpose breeds
+                    if (breed.avgEggs > 0 && (breed.type.includes('Layer') || breed.type.includes('Dual-Purpose'))) {
                         totalEggsPerYear += breed.avgEggs * bird.quantity;
                     }
-                    // Meat: count if type includes 'Meat' or 'Dual' (case-insensitive)
-                    if (breed.slaughterAge &&
-                        (/meat/i.test(breed.type) || /dual/i.test(breed.type))) {
-                        totalMeatPerYear += (breed.weightRooster || breed.weightHen) * bird.quantity;
+                    // Calculate meat weight for Meat and Dual-Purpose breeds
+                    if (breed.slaughterAge && breed.slaughterAge > 0 && (breed.type.includes('Meat') || breed.type.includes('Dual-Purpose'))) {
+                        totalMeatWeightProduced += (breed.weightRooster || breed.weightHen) * bird.quantity;
                     }
                 }
             });
@@ -950,7 +951,7 @@
                 </div>
                 <div class="flex justify-between items-center p-3 bg-white rounded-md shadow-sm border border-gray-200">
                     <p class="text-xl font-bold text-[#2F4F4F]">Estimated Annual Meat:</p>
-                    <p class="text-xl font-bold text-gray-900">${totalMeatPerYear.toFixed(1)} lbs</p>
+                    <p class="text-xl font-bold text-gray-900">${totalMeatWeightProduced.toFixed(1)} lbs</p>
                 </div>
             `;
         }
@@ -964,37 +965,39 @@
             const chickCostMeat = parseFloat(document.getElementById('chickCostMeatInput').value) || 0;
             const dailyFeedCost = parseFloat(document.getElementById('dailyFeedCostInput').value) || 0;
             const eggPriceDozen = parseFloat(document.getElementById('eggPriceDozenInput').value) || 0;
-            meatPriceLb = parseFloat(document.getElementById('meatPriceLbInput').value) || 0; // Update global variable
+            const meatPriceLb = parseFloat(document.getElementById('meatPriceLbInput').value) || 0;
             const initialSetupCost = parseFloat(document.getElementById('initialSetupCostInput').value) || 0;
 
             let totalChickCost = 0;
             let totalAnnualFeedCost = 0;
             let projectedAnnualEggIncome = 0;
-            let projectedAnnualMeatIncome = 0;
+            let totalMeatWeightForEconomics = 0; // Variable to sum meat weight for income calculation
 
             currentFlock.forEach(bird => {
                 const breed = breedData[bird.breed];
                 if (breed) {
                     // Chick Costs
                     if (breed.type.includes('Layer')) totalChickCost += chickCostLayer * bird.quantity;
-                    else if (breed.type.includes('Dual')) totalChickCost += chickCostDualPurpose * bird.quantity;
+                    else if (breed.type.includes('Dual-Purpose')) totalChickCost += chickCostDualPurpose * bird.quantity;
                     else if (breed.type.includes('Meat')) totalChickCost += chickCostMeat * bird.quantity;
 
                     // Annual Feed Cost
                     totalAnnualFeedCost += dailyFeedCost * 365 * bird.quantity; // 365 days of feed
 
                     // Egg Income
-                    if (breed.avgEggs && !breed.type.includes('Meat')) {
+                    if (breed.avgEggs > 0 && (breed.type.includes('Layer') || breed.type.includes('Dual-Purpose'))) {
                         projectedAnnualEggIncome += (breed.avgEggs / 12) * eggPriceDozen * bird.quantity;
                     }
 
-                    // Meat Income (assuming all meat birds are processed once a year, and dual-purpose birds contributing to meat)
-                    if (breed.slaughterAge && (breed.type.includes('Meat') || breed.type.includes('Dual'))) {
-                        // For simplicity, consider meat income from all birds added, assuming they eventually reach slaughter weight
-                        projectedAnnualMeatIncome += (breed.weightRooster || breed.weightHen) * meatPriceLb * bird.quantity;
+                    // Meat Weight for Income Calculation
+                    if (breed.slaughterAge && breed.slaughterAge > 0 && (breed.type.includes('Meat') || breed.type.includes('Dual-Purpose'))) {
+                        totalMeatWeightForEconomics += (breed.weightRooster || breed.weightHen) * bird.quantity;
                     }
                 }
             });
+            // Calculate projected meat income based on total meat weight and price per lb
+            const projectedAnnualMeatIncome = totalMeatWeightForEconomics * meatPriceLb;
+
 
             const totalCosts = totalChickCost + totalAnnualFeedCost + initialSetupCost;
             const totalIncome = projectedAnnualEggIncome + projectedAnnualMeatIncome;
@@ -1129,7 +1132,7 @@
                 const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
                 const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
                 const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
-                               const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
+                const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
                 const eggColor = document.getElementById('customBreedEggColor').value.trim();
                 // For custom breeds, set a generic local image path.
                 const imageUrl = 'https://placehold.co/100x100?text=Custom+Breed'; 
