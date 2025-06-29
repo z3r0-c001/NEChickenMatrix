@@ -267,6 +267,47 @@
             </div>
         </section>
 
+        <h3 class="text-xl font-bold mb-4">Add a Custom Breed</h3>
+            <div class="bg-white p-4 rounded-lg shadow-md mb-6">
+                <form id="customBreedForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="customBreedName" class="block text-sm font-medium text-gray-700">Breed Name</label>
+                        <input type="text" id="customBreedName" required class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                    </div>
+                    <div>
+                        <label for="customBreedType" class="block text-sm font-medium text-gray-700">Type</label>
+                        <select id="customBreedType" required class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                            <option value="Layer">Layer</option>
+                            <option value="Dual-Purpose">Dual-Purpose</option>
+                            <option value="Meat">Meat</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="customBreedEggs" class="block text-sm font-medium text-gray-700">Avg. Eggs/Year</label>
+                        <input type="number" id="customBreedEggs" min="0" value="0" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                    </div>
+                    <div>
+                        <label for="customBreedWeightHen" class="block text-sm font-medium text-gray-700">Hen Weight (lbs)</label>
+                        <input type="number" id="customBreedWeightHen" min="0" step="0.1" value="0" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                    </div>
+                    <div>
+                        <label for="customBreedWeightRooster" class="block text-sm font-medium text-gray-700">Rooster Weight (lbs)</label>
+                        <input type="number" id="customBreedWeightRooster" min="0" step="0.1" value="0" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                    </div>
+                    <div>
+                        <label for="customBreedSlaughterAge" class="block text-sm font-medium text-gray-700">Slaughter Age (weeks)</label>
+                        <input type="number" id="customBreedSlaughterAge" min="0" step="1" value="" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                    </div>
+                    <div>
+                        <label for="customBreedEggColor" class="block text-sm font-medium text-gray-700">Egg Color</label>
+                        <input type="text" id="customBreedEggColor" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                    </div>
+                    <div class="flex items-end">
+                        <button type="submit" class="w-full bg-[#EB6841] text-white font-bold py-2 px-4 rounded-md hover:bg-[#cc5522] transition-colors">Add Custom Breed</button>
+                    </div>
+                </form>
+            </div>
+
     </main>
 
     <footer class="bg-gray-800 text-white mt-16">
@@ -313,6 +354,8 @@
 
         // Array to store the user's selected flock
         let userFlock = [];
+        // Array to store custom breeds
+        let customBreeds = [];
 
         // Default economic values based on research
         const defaultEconomics = {
@@ -328,12 +371,24 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Populate breed selection dropdown
             const breedSelect = document.getElementById('breedSelect');
-            Object.keys(breedData).forEach(breedName => {
-                const option = document.createElement('option');
-                option.value = breedName;
-                option.textContent = `${breedName} (${breedData[breedName].eggColor} eggs)`;
-                breedSelect.appendChild(option);
-            });
+            function refreshBreedSelect() {
+                breedSelect.innerHTML = '';
+                // Add standard breeds
+                Object.keys(breedData).forEach(breedName => {
+                    const option = document.createElement('option');
+                    option.value = breedName;
+                    option.textContent = `${breedName} (${breedData[breedName].eggColor} eggs)`;
+                    breedSelect.appendChild(option);
+                });
+                // Add custom breeds
+                customBreeds.forEach(breed => {
+                    const option = document.createElement('option');
+                    option.value = breed.name;
+                    option.textContent = `${breed.name} (Custom${breed.eggColor ? ', ' + breed.eggColor + ' eggs' : ''})`;
+                    breedSelect.appendChild(option);
+                });
+            }
+            refreshBreedSelect();
 
             // Add event listeners for Flock Builder buttons
             document.getElementById('addBirdBtn').addEventListener('click', addBirdToFlock);
@@ -353,6 +408,9 @@
                 input.addEventListener('change', calculateEconomics);
                 input.addEventListener('keyup', calculateEconomics); // For real-time updates as user types
             });
+
+            // Add event listener for custom breed form submission
+            document.getElementById('customBreedForm').addEventListener('submit', addCustomBreed);
 
             // Initial calculations
             calculateProduction();
@@ -769,6 +827,42 @@
             updateFlockDisplay();
             calculateProduction();
             calculateEconomics(); // Recalculate economics after reset
+        }
+
+        /**
+         * Adds a custom breed to the breed data and updates the breed selection dropdown.
+         * @param {Event} event - The submit event from the custom breed form.
+         */
+        function addCustomBreed(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get values from the form
+            const breedName = document.getElementById('customBreedName').value.trim();
+            const breedType = document.getElementById('customBreedType').value;
+            const avgEggs = parseFloat(document.getElementById('customBreedEggs').value) || 0;
+            const weightHen = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
+            const weightRooster = parseFloat(document.getElementById('customBreedWeightRooster').value) || 0;
+            const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || 0;
+            const eggColor = document.getElementById('customBreedEggColor').value.trim() || 'N/A';
+
+            // Basic validation
+            if (!breedName || !breedType) {
+                alert('Please provide both a breed name and type.');
+                return;
+            }
+
+            // Add the new breed to the customBreeds array
+            customBreeds.push({ name: breedName, type: breedType, avgEggs: avgEggs, weightHen: weightHen, weightRooster: weightRooster, slaughterAge: slaughterAge, eggColor: eggColor });
+
+            // Also add to breedData for compatibility
+            breedData[breedName] = { type: breedType, avgEggs: avgEggs, weightHen: weightHen, weightRooster: weightRooster, slaughterAge: slaughterAge, eggColor: eggColor };
+
+            // Refresh the breed selection dropdown
+            const breedSelect = document.getElementById('breedSelect');
+            refreshBreedSelect();
+
+            // Optionally, reset the form fields here
+            document.getElementById('customBreedForm').reset();
         }
     </script>
 
