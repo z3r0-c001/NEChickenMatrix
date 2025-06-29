@@ -1131,7 +1131,7 @@
                 const type = document.getElementById('customBreedType').value;
                 const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
                 const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
-                const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
+                const roosterWeight = parseFloat(document.getElementById('customBreedWeightRooster').value) || 0;
                 const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
                 const eggColor = document.getElementById('customBreedEggColor').value.trim();
                 // For custom breeds, set a generic local image path.
@@ -1147,6 +1147,9 @@
                         eggColor: eggColor || null,
                         imageUrl: imageUrl // Add the image URL for custom breeds
                     };
+
+                    // Add the newly created custom breed to the current flock
+                    currentFlock.push({ breed: name, quantity: 1 }); // Default to quantity 1
 
                     populateBreedSelects(); // Re-populate dropdowns with new breed
                     // Optionally, select the newly added breed in both dropdowns
@@ -1167,11 +1170,12 @@
                     initMeatProducersChart();
                     initWeightDistributionChart();
 
-                    // Update production/economics if the custom breed is added to the flock
+                    // Update production/economics after adding to flock
+                    renderFlockList(); // This will re-render the flock list including the new bird
                     calculateProduction();
                     calculateEconomics();
                     // Using alert here for simplicity, but in a real app, use a custom modal.
-                    alert(`Custom breed "${name}" added successfully! You can now add it to your flock.`); 
+                    alert(`Custom breed "${name}" added successfully and 1 bird added to your flock!`); 
                 } else if (breedData[name]) {
                     alert(`Breed "${name}" already exists! Please choose a unique name.`);
                 } else {
