@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choosing Your New England Flock</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- 
+        Narrative Plan:
+        1.  Header: Catchy title and intro to set the stage.
+        2.  Section 1 (Hook): Big-number callouts for the three main chicken types (Egg, Dual-Purpose, Meat) to grab attention.
+        3.  Section 2 (Egg Layers): Deep dive into egg production using a bar chart for clear comparison.
+        4.  Section 3 (Dual-Purpose): Use a scatter plot to show the trade-off between egg count and bird size, a key concept for this category.
+        5.  Section 4 (The Meat Producers): A horizontal bar chart showing time to table for meat and dual-purpose breeds, now with weight at maturity in the tooltip.
+        6.  Section 5 (Maturity & Weight): A combined section with a timeline for meat maturity and a donut chart for overall weight distribution to help decision-making.
+        7.  Section 6 (Flowchart): A user-friendly, HTML-based flowchart to guide the final selection process based on primary needs.
+        8.  Section 7 (Flock Builder): An interactive tool to build a custom flock, calculate egg and meat production, and see egg color distribution.
+        9.  Section 8 (Flock Economics): An interactive section to calculate profit and costs based on flock size, production, and configurable prices.
+        10. Footer: Simple sign-off.
+        
+        Color Palette Selection: "Energetic & Playful" (#00A0B0, #6A4A3C, #CC333F, #EB6841, #EDC951) was chosen for its high-contrast, vibrant, and engaging feel, which is ideal for an infographic meant to be both informative and visually appealing.
+
+        Visualization Choices & Justification (NO SVG, NO MERMAID JS):
+        -   Data: Egg Production Comparison -> Goal: Compare -> Visualization: Bar Chart (Chart.js). Justification: Best for comparing a single metric across multiple breeds. Confirmed: NO SVG.
+        -   Data: Dual-Purpose Egg vs. Weight -> Goal: Relationships -> Visualization: Scatter Plot (Chart.js). Justification: Ideal for showing the correlation between two numeric variables. Confirmed: NO SVG.
+        -   Data: Time to Maturity -> Goal: Change/Compare -> Visualization: HTML/CSS Timeline. Justification: A custom visual element is clearer and more engaging for time ranges than a standard chart. Confirmed: NO SVG.
+        -   Data: User Decision Guide -> Goal: Organize -> Visualization: HTML/CSS Flowchart. Justification: The clearest way to guide a user through a decision tree. Confirmed: NO SVG, NO MERMAID JS.
+        -   Data: Overall Weight Distribution -> Goal: Inform -> Visualization: Donut Chart (Chart.js). Justification: Provides a quick, easy-to-digest proportional breakdown of breed sizes. Confirmed: NO SVG.
+        -   Data: Flock Builder -> Goal: Interact/Calculate -> Visualization: HTML Form & Dynamic Results. Justification: An interactive form is necessary for user input and dynamic calculation. Confirmed: NO SVG.
+        -   Data: Meat Production Maturity -> Goal: Compare Time -> Visualization: Horizontal Bar Chart (Chart.js). Justification: Ideal for comparing discrete categories on a timeline, emphasizing "time to table." Now includes average weight at maturity in the tooltip for secondary information. Confirmed: NO SVG.
+
+        Confirmation: NEITHER Mermaid JS NOR SVG were used in this file. All visualizations are rendered using Chart.js on a Canvas element or are constructed with structured HTML and Tailwind CSS.
+    -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flowchart-node {
+            border: 2px solid #EB6841;
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            width: 90%;
+            max-width: 250px;
+        }
+        .flowchart-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px;
+            width: 2px;
+            background-color: #EB6841;
+            margin: 0 auto;
+        }
+        .flowchart-connector::after {
+            content: '▼';
+            color: #EB6841;
+            font-size: 1.5rem;
+            position: absolute;
+            transform: translateY(25px);
+            background-color: #f8fafc;
+            padding: 0 5px;
+        }
+        .flowchart-line {
+            flex-grow: 1;
+            height: 2px;
+            background-color: #EB6841;
+        }
+        .flowchart-branch::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: -25px;
+            height: 25px;
+            width: 2px;
+            background-color: #EB6841;
+        }
+        .flowchart-branch-left::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            left: 0;
+            width: 50%;
+            height: 2px;
+            background-color: #EB6841;
+        }
+        .flowchart-branch-right::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            right: 0;
+            width: 50%;
+            height: 2px;
+            background-color: #EB6841;
+        }
+        .egg-color-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#CC333F]">Choosing Your New England Flock</h1>
+            <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">An infographic guide to selecting the best cold-hardy chicken breeds for your homestead, whether you're seeking eggs, meat, or a bit of both.</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8">
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center mb-16">
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-[#00A0B0]">
+                <h2 class="text-2xl font-bold text-[#00A0B0]">Top Egg Layers</h2>
+                <p class="text-5xl font-extrabold text-gray-800 my-4">330+</p>
+                <p class="text-gray-600">eggs per year from top-performing breeds perfect for consistent production.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-[#EB6841]">
+                <h2 class="text-2xl font-bold text-[#EB6841]">Dual-Purpose Power</h2>
+                <p class="text-5xl font-extrabold text-gray-800 my-4">13 lbs</p>
+                <p class="text-gray-600">is the potential weight of roosters from robust breeds that provide both eggs and meat.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-lg border-t-4 border-[#6A4A3C]">
+                <h2 class="text-2xl font-bold text-[#6A4A3C]">Efficient Meat Birds</h2>
+                <p class="text-5xl font-extrabold text-gray-800 my-4">8 Weeks</p>
+                <p class="text-gray-600">is all it takes for specialized meat breeds like the Cornish Cross to reach market weight.</p>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#00A0B0]">The Egg Producers: A Race to the Top</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">For those prioritizing a steady supply of fresh eggs, these breeds are the undisputed champions. This chart compares the maximum annual egg output of the most prolific layers suitable for New England's climate. The Golden Comet stands out as a true production powerhouse.</p>
+            <div class="chart-container">
+                <canvas id="eggLayersChart"></canvas>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#EB6841]">Dual-Purpose Breeds: Balancing Eggs & Size</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">Dual-purpose breeds are the homesteader's workhorse, offering a valuable combination of eggs and meat. This scatter plot visualizes the trade-off: each point represents a breed, showing how average rooster weight relates to annual egg production. Breeds like the Plymouth Rock offer a fantastic, balanced middle ground.</p>
+            <div class="chart-container">
+                <canvas id="dualPurposeChart"></canvas>
+            </div>
+        </section>
+
+        <!-- New Section: The Meat Producers: A Race to the Table -->
+        <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#6A4A3C]">The Meat Producers: A Race to the Table</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">When meat is the goal, efficiency and growth rate are paramount. This chart compares the average weeks required for popular meat and dual-purpose breeds to reach a suitable slaughter weight, providing an average weight at maturity in the tooltip.</p>
+            <div class="chart-container">
+                <canvas id="meatProducersChart"></canvas>
+            </div>
+        </section>
+
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-2 text-[#6A4A3C]">Time to Table: Growth & Maturity</h2>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">For meat production, time is a critical factor. This timeline illustrates the typical weeks needed for dual-purpose and meat breeds to reach slaughter weight. The difference between a hybrid and a heritage breed is stark.</p>
+                <div class="space-y-6">
+                    <div class="relative"><div class="absolute left-0 top-0 h-full w-1 bg-gray-200 rounded"></div><div class="ml-6"><h3 class="font-bold text-[#CC333F]">8-10 Weeks</h3><p class="text-gray-700"><strong>Cornish Cross:</strong> Unmatched speed, the commercial standard.</p></div></div>
+                    <div class="relative"><div class="absolute left-0 top-0 h-full w-1 bg-gray-200 rounded"></div><div class="ml-6"><h3 class="font-bold text-[#EB6841]">16-20 Weeks</h3><p class="text-gray-700"><strong>Wyandotte, Plymouth Rock, New Hampshire Red:</strong> The sweet spot for many homesteaders.</p></div></div>
+                    <div class="relative"><div class="absolute left-0 top-0 h-full w-1 bg-gray-200 rounded"></div><div class="ml-6"><h3 class="font-bold text-[#EDC951]">20-24 Weeks</h3><p class="text-gray-700"><strong>Brahma, Chantecler, Jersey Giant:</strong> Slower-growing heritage giants that develop rich flavor.</p></div></div>
+                </div>
+            </div>
+             <div class="bg-white p-6 md:p-8 rounded-lg shadow-lg">
+                <h2 class="text-3xl font-bold text-center mb-2 text-[#EDC951]">Breed Weight Classes</h2>
+                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">The breeds we've listed fall into distinct weight categories. This chart shows the distribution, highlighting that the majority are substantial birds well-suited for cold climates.</p>
+                <div class="chart-container h-80 md:h-96"><canvas id="weightDistributionChart"></canvas></div>
+            </div>
+        </section>
+        
+        <section class="bg-white p-6 md:p-8 rounded-lg shadow-lg mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#CC333F]">Which Flock is For You?</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Answer these simple questions to find the breed category that best matches your goals.</p>
+            <div class="flex flex-col items-center"><div class="flowchart-node"><h3 class="font-bold">What is your #1 priority?</h3></div><div class="flowchart-connector"></div><div class="w-full flex flex-col md:flex-row justify-center items-start relative"><div class="flowchart-branch flowchart-branch-left w-full md:w-1/2 flex flex-col items-center p-4"><div class="flowchart-node"><p>Tons of Eggs!</p></div><div class="flowchart-connector"></div><div class="flowchart-node bg-[#00A0B0] text-white"><h3 class="font-bold">Focus on Egg Layers</h3><p class="text-sm">Golden Comet, Leghorn, Rhode Island Red</p></div></div><div class="flowchart-branch flowchart-branch-right w-full md:w-1/2 flex flex-col items-center p-4"><div class="flowchart-node"><p>Meat & Self-Sufficiency</p></div><div class="flowchart-connector"></div><div class="w-full flex flex-col md:flex-row justify-center items-start relative"><div class="flowchart-branch flowchart-branch-left w-full md:w-1/2 flex flex-col items-center p-4"><div class="flowchart-node"><h3 class="font-bold">I want eggs too!</h3></div><div class="flowchart-connector"></div><div class="flowchart-node bg-[#EB6841] text-white"><h3 class="font-bold">Choose Dual-Purpose</h3><p class="text-sm">Wyandotte, Plymouth Rock, Orpington</p></div></div><div class="flowchart-branch flowchart-branch-right w-full md:w-1/2 flex flex-col items-center p-4"><div class="flowchart-node"><h3 class="font-bold">Fastest growth is key.</h3></div><div class="flowchart-connector"></div><div class="flowchart-node bg-[#6A4A3C] text-white"><h3 class="font-bold">Get Meat Breeds</h3><p class="text-sm">Cornish Cross</p></div></div></div></div></div></div>
+        </section>
+        
+        <section id="flockBuilder" class="bg-gray-50 p-6 md:p-8 rounded-lg shadow-inner border mb-16">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#CC333F]">Build Your Dream Flock</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">Use this tool to design your flock and project its output. Add breeds, specify quantities, and see your estimated production of eggs and meat.</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">1. Add Birds to Your Flock</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-md">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <div class="flex-grow">
+                                <label for="breedSelect" class="block text-sm font-medium text-gray-700">Breed</label>
+                                <select id="breedSelect" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md"></select>
+                            </div>
+                            <div>
+                                <label for="quantityInput" class="block text-sm font-medium text-gray-700">Quantity</label>
+                                <input type="number" id="quantityInput" value="1" min="1" class="mt-1 block w-full sm:w-24 pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                            </div>
+                        </div>
+                        <button id="addBirdBtn" class="mt-4 w-full bg-[#00A0B0] text-white font-bold py-2 px-4 rounded-md hover:bg-[#007b88] transition-colors">Add to Flock</button>
+                    </div>
+                </div>
+
+                <div class="row-span-2">
+                     <h3 class="text-xl font-bold mb-4">2. Your Current Flock</h3>
+                     <div id="flockList" class="bg-white p-4 rounded-lg shadow-md min-h-[150px]">
+                         <p id="flockPlaceholder" class="text-gray-500 text-center mt-8">Your flock is empty. Add some birds to get started!</p>
+                     </div>
+                      <button id="resetFlockBtn" class="mt-4 w-full bg-[#CC333F] text-white font-bold py-2 px-4 rounded-md hover:bg-[#a52a33] transition-colors hidden">Reset Flock</button>
+                </div>
+
+                 <div>
+                     <h3 class="text-xl font-bold mb-4">3. Calculate Production</h3>
+                     <div id="calculationResults" class="bg-white p-4 rounded-lg shadow-md space-y-4">
+                         <div class="text-center text-gray-500">
+                            <p>Add birds to your flock to see production estimates.</p>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+        </section>
+
+        <!-- New Section: Flock Economics: Profit & Costs -->
+        <section id="flockEconomics" class="bg-gray-50 p-6 md:p-8 rounded-lg shadow-inner border">
+            <h2 class="text-3xl font-bold text-center mb-2 text-[#00A0B0]">Flock Economics: Profit & Costs</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">Estimate your potential profits and costs. Default values are based on average research, but feel free to adjust them to your local market!</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Set Your Costs & Prices</h3>
+                    <div class="bg-white p-4 rounded-lg shadow-md space-y-4">
+                        <div>
+                            <label for="chickCostLayerInput" class="block text-sm font-medium text-gray-700">Cost per Layer Chick ($)</label>
+                            <input type="number" id="chickCostLayerInput" value="4.00" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <label for="chickCostDualPurposeInput" class="block text-sm font-medium text-gray-700">Cost per Dual-Purpose Chick ($)</label>
+                            <input type="number" id="chickCostDualPurposeInput" value="3.50" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <label for="chickCostMeatInput" class="block text-sm font-medium text-gray-700">Cost per Meat Chick ($)</label>
+                            <input type="number" id="chickCostMeatInput" value="2.50" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <label for="dailyFeedCostInput" class="block text-sm font-medium text-gray-700">Avg. Daily Feed Cost per Bird ($)</label>
+                            <input type="number" id="dailyFeedCostInput" value="0.15" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <label for="eggPriceDozenInput" class="block text-sm font-medium text-gray-700">Selling Price per Dozen Eggs ($)</label>
+                            <input type="number" id="eggPriceDozenInput" value="5.00" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                        <div>
+                            <label for="meatPriceLbInput" class="block text-sm font-medium text-gray-700">Selling Price per lb of Meat ($)</label>
+                            <input type="number" id="meatPriceLbInput" value="3.00" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                         <div>
+                            <label for="initialSetupCostInput" class="block text-sm font-medium text-gray-700">Initial Coop/Brooder Setup Cost ($)</label>
+                            <input type="number" id="initialSetupCostInput" value="750.00" min="0" step="0.01" class="mt-1 block w-full pl-3 pr-2 py-2 text-base border-gray-300 focus:outline-none focus:ring-[#EB6841] focus:border-[#EB6841] sm:text-sm rounded-md">
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Your Economic Snapshot</h3>
+                    <div id="economicResults" class="bg-white p-4 rounded-lg shadow-md space-y-4">
+                        <div class="text-center text-gray-500">
+                            <p>Adjust costs and add birds to see your economic projections.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container mx-auto p-6 text-center">
+            <p>Happy Homesteading!</p>
+            <p class="text-sm text-gray-400 mt-2">Data compiled for New England climates. Always research specific breed needs before purchasing.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Define color palette for charts
+        const vibrantPalette = ['#00A0B0', '#EB6841', '#EDC951', '#CC333F', '#6A4A3C'];
+
+        // Callback for Chart.js tooltips to handle multi-line labels
+        const tooltipTitleCallback = {
+            title: function(tooltipItems) {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) { return label.join(' '); } 
+                else { return label; }
+            }
+        };
+
+        // Comprehensive breed data including egg production, weight, slaughter age, egg color, and chick cost category
+        const breedData = {
+            'Golden Comet': { type: 'Layer', avgEggs: 315, weightHen: 4, weightRooster: 6, slaughterAge: null, eggColor: 'Brown' },
+            'White Leghorn': { type: 'Layer', avgEggs: 300, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'White' },
+            'Rhode Island Red': { type: 'Layer', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown' },
+            'Australorp': { type: 'Layer', avgEggs: 250, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown' },
+            'Easter Egger': { type: 'Layer', avgEggs: 240, weightHen: 4, weightRooster: 5, slaughterAge: null, eggColor: 'Blue/Green/Pink' },
+            'Barred Rock': { type: 'Dual-Purpose', avgEggs: 240, weightHen: 7.5, weightRooster: 9.5, slaughterAge: 18, eggColor: 'Brown' },
+            'Wyandotte': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 18, eggColor: 'Brown/Cream' },
+            'New Hampshire Red': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 18, eggColor: 'Brown' },
+            'Orpington': { type: 'Dual-Purpose', avgEggs: 188, weightHen: 8, weightRooster: 10, slaughterAge: 21, eggColor: 'Brown' },
+            'Brahma': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 10, weightRooster: 12, slaughterAge: 22, eggColor: 'Brown' },
+            'Chantecler': { type: 'Dual-Purpose', avgEggs: 175, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 22, eggColor: 'Brown' },
+            'Cornish Cross': { type: 'Meat', avgEggs: 0, weightHen: 10, weightRooster: 12, slaughterAge: 9, eggColor: 'N/A' },
+            'Jersey Giant': { type: 'Meat', avgEggs: 150, weightHen: 10, weightRooster: 13, slaughterAge: 22, eggColor: 'Brown' },
+        };
+
+        // Array to store the user's selected flock
+        let userFlock = [];
+
+        // Default economic values based on research
+        const defaultEconomics = {
+            chickCostLayer: 4.00,
+            chickCostDualPurpose: 3.50,
+            chickCostMeat: 2.50,
+            dailyFeedCostPerBird: 0.15,
+            eggPriceDozen: 5.00,
+            meatPriceLb: 3.00,
+            initialSetupCost: 750.00
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Populate breed selection dropdown
+            const breedSelect = document.getElementById('breedSelect');
+            Object.keys(breedData).forEach(breedName => {
+                const option = document.createElement('option');
+                option.value = breedName;
+                option.textContent = `${breedName} (${breedData[breedName].eggColor} eggs)`;
+                breedSelect.appendChild(option);
+            });
+
+            // Add event listeners for Flock Builder buttons
+            document.getElementById('addBirdBtn').addEventListener('click', addBirdToFlock);
+            document.getElementById('resetFlockBtn').addEventListener('click', resetFlock);
+
+            // Populate economic input fields with default values
+            document.getElementById('chickCostLayerInput').value = defaultEconomics.chickCostLayer.toFixed(2);
+            document.getElementById('chickCostDualPurposeInput').value = defaultEconomics.chickCostDualPurpose.toFixed(2);
+            document.getElementById('chickCostMeatInput').value = defaultEconomics.chickCostMeat.toFixed(2);
+            document.getElementById('dailyFeedCostInput').value = defaultEconomics.dailyFeedCostPerBird.toFixed(2);
+            document.getElementById('eggPriceDozenInput').value = defaultEconomics.eggPriceDozen.toFixed(2);
+            document.getElementById('meatPriceLbInput').value = defaultEconomics.meatPriceLb.toFixed(2);
+            document.getElementById('initialSetupCostInput').value = defaultEconomics.initialSetupCost.toFixed(2);
+
+            // Add event listeners for economic input changes to trigger recalculation
+            document.querySelectorAll('#flockEconomics input[type="number"]').forEach(input => {
+                input.addEventListener('change', calculateEconomics);
+                input.addEventListener('keyup', calculateEconomics); // For real-time updates as user types
+            });
+
+            // Initial calculations
+            calculateProduction();
+            calculateEconomics();
+
+            // Initialize Charts on DOMContentLoaded
+            // Egg Layers Bar Chart
+            const eggLayersData = { 
+                labels: ['Golden Comet', 'White Leghorn', ['Rhode Island', 'Red'], 'Australorp', 'Easter Egger', ['Barred Rock', '(Plymouth)'], 'Wyandotte'], 
+                datasets: [{ 
+                    label: 'Max Eggs per Year', 
+                    data: [330, 320, 300, 250, 280, 280, 200], 
+                    backgroundColor: vibrantPalette[0] + 'E6', 
+                    borderColor: vibrantPalette[0], 
+                    borderWidth: 2, 
+                    borderRadius: 5, 
+                }]
+            };
+            new Chart(document.getElementById('eggLayersChart'), { 
+                type: 'bar', 
+                data: eggLayersData, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    indexAxis: 'y', 
+                    scales: { 
+                        x: { beginAtZero: true, title: { display: true, text: 'Annual Egg Production' } } 
+                    }, 
+                    plugins: { 
+                        legend: { display: false }, 
+                        tooltip: { callbacks: tooltipTitleCallback } 
+                    } 
+                } 
+            });
+
+            // Dual-Purpose Scatter Plot
+            const dualPurposeData = { 
+                datasets: [
+                    { label: 'Wyandotte', data: [{ x: 8.5, y: 200 }], backgroundColor: vibrantPalette[0] }, 
+                    { label: 'Plymouth Rock', data: [{ x: 9.5, y: 280 }], backgroundColor: vibrantPalette[1] }, 
+                    { label: ['New Hampshire', 'Red'], data: [{ x: 8.5, y: 200 }], backgroundColor: vibrantPalette[3] }, 
+                    { label: 'Orpington', data: [{ x: 10, y: 200 }], backgroundColor: vibrantPalette[2] }, 
+                    { label: 'Brahma', data: [{ x: 12, y: 150 }], backgroundColor: vibrantPalette[4] }, 
+                    { label: 'Chantecler', data: [{ x: 8.5, y: 175 }], backgroundColor: '#334155' } 
+                ]
+            };
+            new Chart(document.getElementById('dualPurposeChart'), { 
+                type: 'scatter', 
+                data: dualPurposeData, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        x: { title: { display: true, text: 'Avg. Max Rooster Weight (lbs)' }, beginAtZero: true }, 
+                        y: { title: { display: true, text: 'Max Eggs per Year' }, beginAtZero: false } 
+                    }, 
+                    plugins: { 
+                        legend: { position: 'bottom' }, 
+                        tooltip: { 
+                            callbacks: { 
+                                title: () => '', 
+                                label: function(context) { 
+                                    let label = context.dataset.label || ''; 
+                                    if (Array.isArray(label)) { label = label.join(' '); } 
+                                    if (label) { label += ': '; } 
+                                    label += `(${context.parsed.x} lbs, ${context.parsed.y} eggs)`; 
+                                    return label; 
+                                } 
+                            } 
+                        } 
+                    } 
+                } 
+            });
+
+            // Meat Producers Bar Chart (NEW)
+            const meatBreeds = Object.keys(breedData).filter(breed => breedData[breed].slaughterAge !== null)
+                                            .sort((a, b) => breedData[a].slaughterAge - breedData[b].slaughterAge);
+            const meatLabels = meatBreeds.map(breed => {
+                // Handle multi-word labels for better display
+                if (breed.includes(' ')) {
+                    return breed.split(' ');
+                }
+                return breed;
+            });
+            const meatDataValues = meatBreeds.map(breed => breedData[breed].slaughterAge);
+            const meatWeightValues = meatBreeds.map(breed => (breedData[breed].weightHen + breedData[breed].weightRooster) / 2);
+
+
+            const meatProducersData = {
+                labels: meatLabels,
+                datasets: [{
+                    label: 'Weeks to Maturity',
+                    data: meatDataValues,
+                    backgroundColor: vibrantPalette[3] + 'E6', // A different vibrant color for meat
+                    borderColor: vibrantPalette[3],
+                    borderWidth: 2,
+                    borderRadius: 5,
+                }]
+            };
+            new Chart(document.getElementById('meatProducersChart'), {
+                type: 'bar',
+                data: meatProducersData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // Horizontal bar chart
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Weeks to Maturity' }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                title: function(tooltipItems) {
+                                    const item = tooltipItems[0];
+                                    let label = item.chart.data.labels[item.dataIndex];
+                                    if (Array.isArray(label)) { return label.join(' '); } 
+                                    else { return label; }
+                                },
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    label += `${context.parsed.x} weeks`;
+                                    // Add secondary data point (weight) to the tooltip
+                                    const breedIndex = context.dataIndex;
+                                    if (meatWeightValues[breedIndex]) {
+                                        label += `, ~${meatWeightValues[breedIndex].toFixed(1)} lbs`;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+
+            // Weight Distribution Doughnut Chart
+            const weightDistributionData = { 
+                labels: ['Heavy (>9 lbs)', 'Medium (6-9 lbs)', 'Light (<6 lbs)'], 
+                datasets: [{ 
+                    label: 'Breed Weight Distribution', 
+                    data: [4, 9, 2], // Number of breeds in each category based on breedData
+                    backgroundColor: [vibrantPalette[4], vibrantPalette[1], vibrantPalette[0]], 
+                    hoverOffset: 4 
+                }]
+            };
+            new Chart(document.getElementById('weightDistributionChart'), { 
+                type: 'doughnut', 
+                data: weightDistributionData, 
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    plugins: { 
+                        legend: { position: 'top' }, 
+                        tooltip: { callbacks: tooltipTitleCallback } 
+                    } 
+                } 
+            });
+        });
+        
+        /**
+         * Adds a selected bird breed and quantity to the user's flock.
+         * Updates the flock display and triggers production/economic calculations.
+         */
+        function addBirdToFlock() {
+            const breedSelect = document.getElementById('breedSelect');
+            const quantityInput = document.getElementById('quantityInput');
+            const selectedBreed = breedSelect.value;
+            const quantity = parseInt(quantityInput.value, 10);
+
+            // Validate inputs
+            if (!selectedBreed || isNaN(quantity) || quantity < 1) {
+                // Optionally show a user-friendly message, but for this context, just return.
+                console.warn('Invalid breed or quantity for adding to flock.');
+                return;
+            }
+
+            // Check if breed already exists in flock to update quantity, otherwise add new entry
+            const existingEntry = userFlock.find(b => b.breed === selectedBreed);
+            if (existingEntry) {
+                existingEntry.quantity += quantity;
+            } else {
+                userFlock.push({ breed: selectedBreed, quantity: quantity });
+            }
+            // Update UI and calculations
+            updateFlockDisplay();
+            calculateProduction();
+            calculateEconomics(); // Recalculate economics after flock change
+        }
+
+        /**
+         * Updates the visual display of the user's current flock.
+         */
+        function updateFlockDisplay() {
+            const flockList = document.getElementById('flockList');
+            const resetBtn = document.getElementById('resetFlockBtn');
+            
+            flockList.innerHTML = ''; // Clear previous list
+
+            // Show placeholder or actual flock list
+            if (userFlock.length === 0) {
+                flockList.innerHTML = '<p id="flockPlaceholder" class="text-gray-500 text-center mt-8">Your flock is empty. Add some birds to get started!</p>';
+                resetBtn.classList.add('hidden'); // Hide reset button if flock is empty
+            } else {
+                resetBtn.classList.remove('hidden'); // Show reset button
+
+                const list = document.createElement('ul');
+                list.className = 'space-y-3';
+                userFlock.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'flex justify-between items-center bg-gray-100 p-2 rounded';
+                    
+                    // Determine egg color for display dot
+                    const eggColor = breedData[item.breed].eggColor;
+                    let colorHex = '#D2B48C'; // Default brown
+                    if(eggColor === 'White') colorHex = '#FFFFFF';
+                    if(eggColor.includes('Blue')) colorHex = '#ADD8E6'; // Covers Blue/Green/Pink
+
+                    listItem.innerHTML = `
+                        <div>
+                            <span class="egg-color-dot" style="background-color: ${colorHex};"></span>
+                            <span class="font-semibold">${item.breed}</span>
+                            <span class="text-gray-600">x ${item.quantity}</span>
+                        </div>
+                        <button data-index="${index}" class="text-red-500 hover:text-red-700 font-bold p-1 rounded hover:bg-red-100 transition-colors">Remove</button>
+                    `;
+                    list.appendChild(listItem);
+                });
+                flockList.appendChild(list);
+                
+                // Add event listeners to newly created "Remove" buttons
+                flockList.querySelectorAll('button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const indexToRemove = parseInt(e.target.dataset.index, 10);
+                        userFlock.splice(indexToRemove, 1); // Remove item from flock array
+                        updateFlockDisplay(); // Re-render flock list
+                        calculateProduction(); // Recalculate production
+                        calculateEconomics(); // Recalculate economics
+                    });
+                });
+            }
+        }
+
+        /**
+         * Calculates and displays the estimated egg and meat production of the current flock.
+         */
+        function calculateProduction() {
+            const resultsDiv = document.getElementById('calculationResults');
+            // If no birds, show placeholder and return
+            if (userFlock.length === 0) {
+                resultsDiv.innerHTML = '<div class="text-center text-gray-500"><p>Add birds to your flock to see production estimates.</p></div>';
+                return;
+            }
+
+            let totalWeeklyEggs = 0;
+            let totalMeatLbs = 0;
+            let meatBreakdownHtml = '';
+            const eggColorCounts = {};
+
+            // Iterate through flock to sum up production
+            userFlock.forEach(item => {
+                const data = breedData[item.breed];
+                // Calculate egg production for layers and dual-purpose birds
+                if (data.avgEggs > 0) {
+                    const dailyEggs = (data.avgEggs / 365) * item.quantity;
+                    totalWeeklyEggs += dailyEggs * 7;
+
+                    // Aggregate egg colors
+                    const color = data.eggColor;
+                    if (!eggColorCounts[color]) eggColorCounts[color] = 0;
+                    eggColorCounts[color] += dailyEggs * 7;
+                }
+                
+                // Calculate meat production for dual-purpose and meat birds
+                if (data.type === 'Dual-Purpose' || data.type === 'Meat') {
+                    // Average weight of hen and rooster for general meat calculation
+                    const avgWeight = (data.weightHen + data.weightRooster) / 2; 
+                    const breedMeat = avgWeight * item.quantity;
+                    totalMeatLbs += breedMeat;
+                    // Add to breakdown if slaughter age is defined
+                    if(data.slaughterAge) {
+                        meatBreakdownHtml += `<li class="text-sm text-gray-600">${item.breed}: ~${breedMeat.toFixed(1)} lbs at ${data.slaughterAge} weeks</li>`;
+                    }
+                }
+            });
+
+            // Generate HTML for egg color distribution
+            let eggColorHtml = Object.keys(eggColorCounts).map(color => {
+                 let colorHex = '#D2B48C'; // Default brown
+                 if(color === 'White') colorHex = '#FFFFFF';
+                 if(color.includes('Blue')) colorHex = '#ADD8E6'; // Covers Blue/Green/Pink
+                 return `<span class="inline-flex items-center text-sm mr-2"><span class="egg-color-dot" style="background-color: ${colorHex};"></span>~${Math.round(eggColorCounts[color])} ${color}</span>`;
+            }).join('');
+
+            // Update the production results display
+            resultsDiv.innerHTML = `
+                <div class="border-b pb-4">
+                    <h4 class="font-bold text-lg text-[#00A0B0]">Egg Production</h4>
+                    <p class="text-3xl font-extrabold">${Math.round(totalWeeklyEggs)} <span class="text-xl font-semibold">eggs/week</span></p>
+                    <p class="text-xl font-extrabold">${Math.round(totalWeeklyEggs * 52)} <span class="text-xl font-semibold">eggs/year</span></p>
+                    <div class="mt-2">
+                        <p class="font-semibold text-sm">Weekly Basket:</p>
+                        ${eggColorHtml}
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg text-[#6A4A3C]">Meat Production</h4>
+                    <p class="text-3xl font-extrabold">${totalMeatLbs.toFixed(1)} lbs</p>
+                    <p class="text-sm text-gray-700">Total potential yield at recommended maturity.</p>
+                    <ul class="mt-2 list-disc list-inside">${meatBreakdownHtml}</ul>
+                </div>
+            `;
+        }
+        
+        /**
+         * Calculates and displays the estimated economic profit/loss of the flock.
+         */
+        function calculateEconomics() {
+            const economicResultsDiv = document.getElementById('economicResults');
+            
+            // Get current cost and price inputs, using defaults if empty or invalid
+            const getInputValue = (id, defaultValue) => {
+                const inputElement = document.getElementById(id);
+                const value = parseFloat(inputElement.value);
+                return isNaN(value) ? defaultValue : value;
+            };
+
+            const chickCostLayer = getInputValue('chickCostLayerInput', defaultEconomics.chickCostLayer);
+            const chickCostDualPurpose = getInputValue('chickCostDualPurposeInput', defaultEconomics.chickCostDualPurpose);
+            const chickCostMeat = getInputValue('chickCostMeatInput', defaultEconomics.chickCostMeat);
+            const dailyFeedCostPerBird = getInputValue('dailyFeedCostInput', defaultEconomics.dailyFeedCostPerBird);
+            const eggPriceDozen = getInputValue('eggPriceDozenInput', defaultEconomics.eggPriceDozen);
+            const meatPriceLb = getInputValue('meatPriceLbInput', defaultEconomics.meatPriceLb);
+            const initialSetupCost = getInputValue('initialSetupCostInput', defaultEconomics.initialSetupCost);
+
+            let totalInitialChickCost = 0;
+            let totalBirds = 0;
+            let totalAnnualEggs = 0;
+            let totalPotentialMeatLbs = 0;
+
+            userFlock.forEach(item => {
+                const data = breedData[item.breed];
+                totalBirds += item.quantity;
+                
+                // Calculate total initial chick cost
+                if (data.type === 'Layer') {
+                    totalInitialChickCost += chickCostLayer * item.quantity;
+                } else if (data.type === 'Dual-Purpose') {
+                    totalInitialChickCost += chickCostDualPurpose * item.quantity;
+                } else if (data.type === 'Meat') {
+                    totalInitialChickCost += chickCostMeat * item.quantity;
+                }
+
+                // Calculate total annual eggs (reusing logic from calculateProduction)
+                if (data.avgEggs > 0) {
+                    totalAnnualEggs += data.avgEggs * item.quantity;
+                }
+
+                // Calculate total potential meat (reusing logic from calculateProduction)
+                if (data.type === 'Dual-Purpose' || data.type === 'Meat') {
+                    const avgWeight = (data.weightHen + data.weightRooster) / 2;
+                    totalPotentialMeatLbs += avgWeight * item.quantity;
+                }
+            });
+
+            // Calculate annual costs and revenues
+            const annualFeedCost = totalBirds * dailyFeedCostPerBird * 365;
+            const annualEggRevenue = (totalAnnualEggs / 12) * eggPriceDozen;
+            const annualMeatRevenue = totalPotentialMeatLbs * meatPriceLb;
+
+            const totalAnnualRevenue = annualEggRevenue + annualMeatRevenue;
+            const netAnnualProfitLoss = totalAnnualRevenue - annualFeedCost;
+
+            // Display results
+            if (userFlock.length === 0) {
+                economicResultsDiv.innerHTML = '<div class="text-center text-gray-500"><p>Adjust costs and add birds to see your economic projections.</p></div>';
+            } else {
+                economicResultsDiv.innerHTML = `
+                    <div class="border-b pb-4">
+                        <h4 class="font-bold text-lg text-[#EB6841]">Revenue Projections (Annual)</h4>
+                        <p class="text-xl font-bold">Eggs: $${annualEggRevenue.toFixed(2)}</p>
+                        <p class="text-xl font-bold">Meat: $${annualMeatRevenue.toFixed(2)}</p>
+                        <p class="text-3xl font-extrabold text-[#EDC951]">Total Revenue: $${totalAnnualRevenue.toFixed(2)}</p>
+                    </div>
+                    <div class="border-b pb-4">
+                        <h4 class="font-bold text-lg text-[#6A4A3C]">Cost Projections (Annual)</h4>
+                        <p class="text-3xl font-extrabold text-[#CC333F]">Total Feed Cost: $${annualFeedCost.toFixed(2)}</p>
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="font-bold text-lg text-[#00A0B0]">Overall Summary</h4>
+                        <p class="text-3xl font-extrabold ${netAnnualProfitLoss >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            Net Annual Profit/Loss: $${netAnnualProfitLoss.toFixed(2)}
+                        </p>
+                        <p class="text-lg text-gray-700 mt-2">Initial One-Time Setup Cost (e.g., coop, brooder): $${initialSetupCost.toFixed(2)}</p>
+                        <p class="text-sm text-gray-500 mt-1">This calculation excludes initial setup cost from annual profit/loss, as it's a one-time investment.</p>
+                        <p class="text-sm text-gray-500 mt-1">Total initial chick cost for your current flock: $${totalInitialChickCost.toFixed(2)}</p>
+                    </div>
+                `;
+            }
+        }
+
+
+        /**
+         * Resets the user's flock to empty and updates all displays/calculations.
+         */
+        function resetFlock() {
+            userFlock = [];
+            updateFlockDisplay();
+            calculateProduction();
+            calculateEconomics(); // Recalculate economics after reset
+        }
+    </script>
+
+</body>
+</html>
