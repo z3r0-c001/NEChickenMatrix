@@ -10,10 +10,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Base body styles for font and a very light, inviting background */
+        /* Base body styles for font, background image, and improved text readability */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8FBFD; /* A very subtle light blue-gray */
+            /* Updated: Background with a subtle natural paper texture image */
+            background-image: url('https://placehold.co/1920x1080/F5F5DC/000000?text=Subtle+Paper+Texture'); /* Placeholder while image generates */
+            background-repeat: repeat;
+            background-attachment: fixed; /* Ensures the background stays put when scrolling */
+            min-height: 100vh; /* Ensure background covers full viewport height */
+            line-height: 1.7; 
+            font-size: 1.1rem; 
         }
         /* Chart container for responsive sizing */
         .chart-container {
@@ -38,7 +44,7 @@
             box-shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.15), 0 3px 6px -3px rgba(0, 0, 0, 0.1); /* Stronger shadow */
             width: 90%;
             max-width: 280px; /* Slightly larger nodes */
-            font-weight: 600; /* Bolder text */
+            font-weight: 700; /* Bolder text */
             color: #333; /* Darker text for better contrast */
         }
         /* Flowchart connector line */
@@ -59,7 +65,7 @@
             font-size: 1.8rem; /* Larger arrow */
             position: absolute;
             transform: translateY(30px); /* Adjust arrow position */
-            background-color: #F8FBFD; /* Match body background to hide line under arrow */
+            background-color: transparent; /* Changed to transparent to match image background */
             padding: 0 7px; /* Larger padding for arrow */
         }
         /* Horizontal line for branches in flowchart */
@@ -130,12 +136,135 @@
             box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.3), 0 2px 5px rgba(0, 0, 0, 0.15); /* Orange focus ring with enhanced shadow */
             border-color: #FF6F00; /* Dark Orange border on focus */
         }
+
+        /* --- NEW DECISION TREE STYLES --- */
+        /* Connector Path */
+        .decision-path {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            height: 5rem; /* Space between nodes */
+            padding-bottom: 0.5rem;
+        }
+
+        .decision-path .path-line,
+        .decision-path-down .path-line-down {
+            height: 100%;
+            width: 4px;
+            background-color: #d1d5db; /* Light gray line */
+            border-radius: 9999px; /* Full rounded */
+        }
+
+        .decision-path .path-circle,
+        .decision-path-down .path-circle-down {
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: #f3f4f6; /* Lighter gray circle */
+            border: 4px solid #d1d5db; /* Gray border */
+            border-radius: 9999px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+
+        /* For vertical connectors in branches */
+        .decision-path-down {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            height: 3rem;
+            padding-bottom: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .decision-node {
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .decision-node:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .decision-node-branch {
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .decision-node-branch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px -4px rgba(0, 0, 0, 0.15);
+        }
+        
+        .decision-node-sub-branch {
+            text-align: center;
+            border: 2px solid;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+        
+        .decision-node-sub-branch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px -4px rgba(0, 0, 0, 0.15);
+        }
+
+        .decision-node-final {
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+        
+        /* Media query for horizontal layout on larger screens */
+        @media (min-width: 768px) {
+            .decision-branch-wrapper {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+            
+            .decision-branch-wrapper > div {
+                position: relative;
+            }
+            
+            .decision-branch-wrapper::before {
+                content: '';
+                position: absolute;
+                top: -2rem;
+                left: 50%;
+                width: 4px;
+                height: 2rem;
+                background-color: #d1d5db;
+                transform: translateX(-50%);
+            }
+            
+            .decision-branch-wrapper::after {
+                content: '';
+                position: absolute;
+                top: -2rem;
+                left: 50%;
+                width: 60%; /* Adjust as needed */
+                height: 4px;
+                background-color: #d1d5db;
+                transform: translateX(-50%);
+            }
+
+            .decision-branch-wrapper .decision-path-down {
+                height: 5rem;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <header class="bg-gradient-to-r from-[#8B0000] to-[#C04000] shadow-xl text-white">
-        <div class="container mx-auto px-6 py-10 text-center">
+    <header class="bg-gradient-to-r from-green-700 to-green-900 shadow-2xl text-white">
+        <div class="container mx-auto px-6 py-14 text-center relative z-10">
             <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight drop-shadow-lg">Choosing Your New England Flock</h1>
             <p class="mt-5 text-xl text-white opacity-90 max-w-4xl mx-auto leading-relaxed">An interactive infographic guide to selecting the best cold-hardy chicken breeds for your homestead, whether you're seeking abundant eggs, delicious meat, or a perfect blend of both.</p>
         </div>
@@ -147,23 +276,23 @@
             <div class="bg-white p-8 rounded-2xl shadow-xl border-t-8 border-[#1D8A99] transform hover:scale-105 transition-transform duration-300">
                 <h2 class="text-3xl font-bold text-[#1D8A99] mb-4">Top Egg Layers</h2>
                 <p class="text-6xl font-black text-gray-900 my-6 text-shadow-strong">330+</p>
-                <p class="text-lg text-gray-700 leading-relaxed">eggs per year from top-performing breeds perfect for consistent, fresh production.</p>
+                <p class="text-xl text-gray-900 leading-relaxed font-semibold">eggs per year from top-performing breeds perfect for consistent, fresh production.</p>
             </div>
             <div class="bg-white p-8 rounded-2xl shadow-xl border-t-8 border-[#FF6F00] transform hover:scale-105 transition-transform duration-300">
                 <h2 class="text-3xl font-bold text-[#FF6F00] mb-4">Dual-Purpose Power</h2>
                 <p class="text-6xl font-black text-gray-900 my-6 text-shadow-strong">13 lbs</p>
-                <p class="text-lg text-gray-700 leading-relaxed">is the potential weight of robust meat chickens, and roosters.</p>
+                <p class="text-xl text-gray-900 leading-relaxed font-semibold">is the potential weight of robust meat chickens, and roosters.</p>
             </div>
             <div class="bg-white p-8 rounded-2xl shadow-xl border-t-8 border-[#2F4F4F] transform hover:scale-105 transition-transform duration-300">
                 <h2 class="text-3xl font-bold text-[#2F4F4F] mb-4">Efficient Meat Birds</h2>
                 <p class="text-6xl font-black text-gray-900 my-6 text-shadow-strong">8 Weeks</p>
-                <p class="text-lg text-gray-700 leading-relaxed">is all it takes for specialized meat breeds like the Cornish Cross to reach market weight quickly.</p>
+                <p class="text-xl text-gray-900 leading-relaxed font-semibold">is all it takes for specialized meat breeds like the Cornish Cross to reach market weight quickly.</p>
             </div>
         </section>
 
         <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#1D8A99] drop-shadow-sm">The Egg Producers: A Race to the Top</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">For those prioritizing a steady supply of fresh eggs, these breeds are the undisputed champions. This chart compares the maximum annual egg output of the most prolific layers and dual-purpose breeds suitable for New England's climate. The Golden Comet stands out as a true production powerhouse, while dual-purpose birds like the Plymouth Rock also contribute significantly.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">For those prioritizing a steady supply of fresh eggs, these breeds are the undisputed champions. This chart compares the maximum annual egg output of the most prolific layers and dual-purpose breeds suitable for New England's climate. The Golden Comet stands out as a true production powerhouse, while dual-purpose birds like the Plymouth Rock also contribute significantly.</p>
             <div class="chart-container h-[400px] md:h-[450px]">
                 <canvas id="eggLayersChart"></canvas>
             </div>
@@ -171,16 +300,15 @@
 
         <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#FF6F00] drop-shadow-sm">Dual-Purpose Breeds: Balancing Eggs & Size</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">Dual-purpose breeds are the homesteader's workhorse, offering a valuable combination of eggs and meat. This scatter plot visualizes the trade-off: each point represents a breed, showing how average rooster weight relates to annual egg production. Breeds like the Plymouth Rock offer a fantastic, balanced middle ground.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Dual-purpose breeds are the homesteader's workhorse, offering a valuable combination of eggs and meat. This scatter plot visualizes the trade-off: each point represents a breed, showing how average rooster weight relates to annual egg production. Breeds like the Plymouth Rock offer a fantastic, balanced middle ground.</p>
             <div class="chart-container h-[400px] md:h-[450px]">
                 <canvas id="dualPurposeChart"></canvas>
             </div>
         </section>
 
-        <!-- New Section: The Meat Producers: A Race to the Table -->
         <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#2F4F4F] drop-shadow-sm">The Meat Producers: A Race to the Table</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">When meat is the goal, efficiency and growth rate are paramount. This chart compares the average weeks required for popular meat and dual-purpose breeds to reach a suitable slaughter weight, providing an average weight at maturity in the tooltip. Note how heritage breeds like the Jersey Giant take longer but offer rich flavor.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">When meat is the goal, efficiency and growth rate are paramount. This chart compares the average weeks required for popular meat and dual-purpose breeds to reach a suitable slaughter weight, providing an average weight at maturity in the tooltip. Note how heritage breeds like the Jersey Giant take longer but offer rich flavor.</p>
             <div class="chart-container h-[400px] md:h-[450px]">
                 <canvas id="meatProducersChart"></canvas>
             </div>
@@ -189,76 +317,109 @@
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-20 border-2 border-dashed border-gray-200 p-6 md:p-8 rounded-2xl shadow-xl">
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
                 <h2 class="text-4xl font-bold text-center mb-4 text-[#2F4F4F] drop-shadow-sm">Time to Table: Growth & Maturity</h2>
-                <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">For meat production, time is a critical factor. This timeline illustrates the typical weeks needed for dual-purpose and meat breeds to reach slaughter weight. The difference between a hybrid and a heritage breed is stark.</p>
+                <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">For meat production, time is a critical factor. This timeline illustrates the typical weeks needed for dual-purpose and meat breeds to reach slaughter weight. The difference between a hybrid and a heritage breed is stark.</p>
                 <div class="space-y-8">
                     <div class="relative pl-8">
                         <div class="absolute left-0 top-0 h-full w-2 bg-gray-200 rounded-full"></div>
                         <div class="absolute left-0 top-0 w-2 h-2 bg-[#8B0000] rounded-full mt-2 -ml-0.5"></div>
                         <h3 class="font-extrabold text-[#8B0000] text-2xl mb-1">8-10 Weeks</h3>
-                        <p class="text-gray-700 text-lg"><strong>Cornish Cross:</strong> Unmatched speed, the commercial standard for rapid growth.</p>
+                        <p class="text-lg text-gray-800 font-semibold"><strong>Cornish Cross:</strong> Unmatched speed, the commercial standard for rapid growth.</p>
                     </div>
                     <div class="relative pl-8">
                         <div class="absolute left-0 top-0 h-full w-2 bg-gray-200 rounded-full"></div>
                         <div class="absolute left-0 top-0 w-2 h-2 bg-[#FF6F00] rounded-full mt-2 -ml-0.5"></div>
                         <h3 class="font-extrabold text-[#FF6F00] text-2xl mb-1">12-20 Weeks</h3>
-                        <p class="text-gray-700 text-lg"><strong>Delaware, Wyandotte, Plymouth Rock, New Hampshire Red:</strong> The sweet spot for many homesteaders, balancing growth and flavor.</p>
+                        <p class="text-lg text-gray-800 font-semibold"><strong>Delaware, Wyandotte, Plymouth Rock, New Hampshire Red:</strong> The sweet spot for many homesteaders, balancing growth and flavor.</p>
                     </div>
                     <div class="relative pl-8">
                         <div class="absolute left-0 top-0 h-full w-2 bg-gray-200 rounded-full"></div>
                         <div class="absolute left-0 top-0 w-2 h-2 bg-[#1D8A99] rounded-full mt-2 -ml-0.5"></div>
                         <h3 class="font-extrabold text-[#1D8A99] text-2xl mb-1">20-26+ Weeks</h3>
-                        <p class="text-lg text-gray-700"><strong>Brahma, Chantecler, Orpington, Jersey Giant:</strong> Slower-growing heritage giants that develop rich, deep flavor.</p>
+                        <p class="text-lg text-gray-800 font-semibold"><strong>Brahma, Chantecler, Orpington, Jersey Giant:</strong> Slower-growing heritage giants that develop rich, deep flavor.</p>
                     </div>
                 </div>
             </div>
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
                 <h2 class="text-4xl font-bold text-center mb-4 text-[#1D8A99] drop-shadow-sm">Breed Weight Classes</h2>
-                <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">The breeds we've listed fall into distinct weight categories. This chart shows the distribution, highlighting that the majority are substantial birds well-suited for cold climates.</p>
-                <div class="chart-container h-[300px] md:h-[350px]">
-                    <canvas id="weightDistributionChart"></canvas>
+                <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">The breeds we've listed fall into distinct weight categories. This chart shows the distribution, highlighting that the majority are substantial birds well-suited for cold climates.</p>
+                <div class="chart-container h-[285px] md:h-[332.5px]"> <canvas id="weightDistributionChart"></canvas>
                 </div>
             </div>
         </section>
         
         <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#8B0000] drop-shadow-sm">Which Flock is For You?</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-12 text-lg leading-relaxed">Answer these simple questions to find the breed category that best matches your homesteading goals.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-12 leading-relaxed font-semibold text-center">Answer these simple questions to find the breed category that best matches your homesteading goals.</p>
             <div class="flex flex-col items-center">
-                <div class="flowchart-node">
-                    <h3 class="font-bold text-xl">What is your #1 priority?</h3>
+                <!-- Step 1: Main Question -->
+                <div class="decision-node bg-white border-[#8B0000] p-6 rounded-2xl shadow-lg w-full max-w-md">
+                    <h3 class="text-3xl font-extrabold text-gray-900">What's your homestead goal?</h3>
+                    <p class="text-lg text-gray-700 font-semibold">Choose your top priority for your flock.</p>
                 </div>
-                <div class="flowchart-connector"></div>
-                <div class="w-full flex flex-col md:flex-row justify-center items-start relative">
-                    <!-- Branch 1: Tons of Eggs! -->
-                    <div class="flowchart-branch flowchart-branch-left w-full md:w-1/2 flex flex-col items-center p-4">
-                        <div class="flowchart-node bg-gray-100 border-[#1D8A99]"><p class="text-lg font-semibold text-[#1D8A99]">Tons of Eggs!</p></div>
-                        <div class="flowchart-connector"></div>
-                        <div class="flowchart-node bg-[#1D8A99] text-white">
-                            <h3 class="font-bold text-2xl">Focus on Egg Layers</h3>
-                            <p class="text-base text-white opacity-90 mt-1">Golden Comet, Leghorn, Rhode Island Red</p>
+
+                <!-- Connector -->
+                <div class="decision-path">
+                    <div class="path-line"></div>
+                    <div class="path-circle"></div>
+                </div>
+
+                <!-- Step 2: Branching Decisions -->
+                <div class="w-full flex flex-col md:flex-row justify-around items-stretch my-6">
+                    <!-- Left Branch: Eggs -->
+                    <div class="flex flex-col items-center flex-1 p-4 md:p-8 relative">
+                        <div class="decision-node-branch bg-gray-50 border-[#1D8A99] p-6 rounded-2xl shadow-md w-full max-w-sm hover:scale-105 transition-transform duration-300">
+                            <h4 class="text-2xl font-black text-[#1D8A99]">Tons of Eggs!</h4>
+                        </div>
+                        <!-- Connector Down from Branch -->
+                        <div class="decision-path-down">
+                            <div class="path-line-down"></div>
+                            <div class="path-circle-down"></div>
+                        </div>
+                        <!-- Final Node for Eggs -->
+                        <div class="decision-node-final bg-[#1D8A99] text-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8">
+                            <h4 class="text-2xl font-black">Your Best Fit: Layer Breeds</h4>
+                            <p class="text-lg text-white opacity-95 font-semibold">Consider: Golden Comet, Leghorn, Rhode Island Red</p>
                         </div>
                     </div>
-                    <!-- Branch 2: Meat & Self-Sufficiency -->
-                    <div class="flowchart-branch flowchart-branch-right w-full md:w-1/2 flex flex-col items-center p-4">
-                        <div class="flowchart-node bg-gray-100 border-[#FF6F00]"><p class="text-lg font-semibold text-[#FF6F00]">Meat & Self-Sufficiency</p></div>
-                        <div class="flowchart-connector"></div>
-                        <div class="w-full flex flex-col md:flex-row justify-center items-start relative">
-                            <!-- Sub-Branch 2.1: I want eggs too! -->
-                            <div class="flowchart-branch flowchart-branch-left w-full md:w-1/2 flex flex-col items-center p-4">
-                                <div class="flowchart-node bg-gray-100 border-[#FF6F00]"><h3 class="font-bold text-lg text-[#FF6F00]">I want eggs too!</h3></div>
-                                <div class="flowchart-connector"></div>
-                                <div class="flowchart-node bg-[#FF6F00] text-white">
-                                    <h3 class="font-bold text-2xl">Choose Dual-Purpose</h3>
-                                    <p class="text-base text-white opacity-90 mt-1">Wyandotte, Plymouth Rock, Orpington</p>
+
+                    <!-- Right Branch: Meat -->
+                    <div class="flex flex-col items-center flex-1 p-4 md:p-8 relative">
+                        <div class="decision-node-branch bg-gray-50 border-[#FF6F00] p-6 rounded-2xl shadow-md w-full max-w-sm hover:scale-105 transition-transform duration-300">
+                            <h4 class="text-2xl font-black text-[#FF6F00]">Meat & Self-Sufficiency</h4>
+                        </div>
+                        <!-- Connector Down from Branch -->
+                        <div class="decision-path-down">
+                            <div class="path-line-down"></div>
+                            <div class="path-circle-down"></div>
+                        </div>
+                        <!-- Sub-branching from Meat -->
+                        <div class="w-full flex flex-col md:flex-row justify-around items-stretch mt-8">
+                            <!-- Sub-Branch Left: Eggs too -->
+                            <div class="flex flex-col items-center flex-1 p-4">
+                                <div class="decision-node-sub-branch bg-white border-[#FF6F00] p-5 rounded-xl shadow-md w-full max-w-[200px] hover:scale-105 transition-transform duration-300">
+                                    <p class="text-xl font-bold text-[#FF6F00] leading-tight text-center">"I want eggs too!"</p>
+                                </div>
+                                <div class="decision-path-down">
+                                    <div class="path-line-down"></div>
+                                    <div class="path-circle-down"></div>
+                                </div>
+                                <div class="decision-node-final bg-[#FF6F00] text-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8">
+                                    <h4 class="text-2xl font-black">Go Dual-Purpose</h4>
+                                    <p class="text-lg text-white opacity-95 font-semibold">Consider: Wyandotte, Plymouth Rock, Orpington</p>
                                 </div>
                             </div>
-                            <!-- Sub-Branch 2.2: Fastest growth is key. -->
-                            <div class="flowchart-branch flowchart-branch-right w-full md:w-1/2 flex flex-col items-center p-4">
-                                <div class="flowchart-node bg-gray-100 border-[#2F4F4F]"><h3 class="font-bold text-lg text-[#2F4F4F]">Fastest growth is key.</h3></div>
-                                <div class="flowchart-connector"></div>
-                                <div class="flowchart-node bg-[#2F4F4F] text-white">
-                                    <h3 class="font-bold text-2xl">Get Meat Breeds</h3>
-                                    <p class="text-base text-white opacity-90 mt-1">Cornish Cross</p>
+                            <!-- Sub-Branch Right: Fast Growth -->
+                            <div class="flex flex-col items-center flex-1 p-4">
+                                <div class="decision-node-sub-branch bg-white border-[#2F4F4F] p-5 rounded-xl shadow-md w-full max-w-[200px] hover:scale-105 transition-transform duration-300">
+                                    <p class="text-xl font-bold text-[#2F4F4F] leading-tight text-center">"Fastest growth is key!"</p>
+                                </div>
+                                <div class="decision-path-down">
+                                    <div class="path-line-down"></div>
+                                    <div class="path-circle-down"></div>
+                                </div>
+                                <div class="decision-node-final bg-[#2F4F4F] text-white p-6 rounded-2xl shadow-xl w-full max-w-sm mt-8">
+                                    <h4 class="text-2xl font-black">Choose Meat Breeds</h4>
+                                    <p class="text-lg text-white opacity-95 font-semibold">Consider: Cornish Cross, Freedom Ranger</p>
                                 </div>
                             </div>
                         </div>
@@ -269,7 +430,7 @@
         
         <section id="flockBuilder" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200 mb-20">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#8B0000] drop-shadow-sm">Build Your Dream Flock</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">Use this intuitive tool to design your ideal flock and project its output. Add breeds, specify quantities, and get instant estimates for your annual egg and meat production.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Use this intuitive tool to design your ideal flock and project its output. Add breeds, specify quantities, and get instant estimates for your annual egg and meat production.</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
@@ -277,11 +438,11 @@
                     <div class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100">
                         <div class="flex flex-col sm:flex-row gap-5 mb-5">
                             <div class="flex-grow">
-                                <label for="breedSelect" class="block text-base font-semibold text-gray-700 mb-2">Select Breed</label>
+                                <label for="breedSelect" class="block text-lg font-bold text-gray-900 mb-2">Select Breed</label>
                                 <select id="breedSelect" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all"></select>
                             </div>
                             <div>
-                                <label for="quantityInput" class="block text-base font-semibold text-gray-700 mb-2">Quantity</label>
+                                <label for="quantityInput" class="block text-lg font-bold text-gray-900 mb-2">Quantity</label>
                                 <input type="number" id="quantityInput" value="1" min="1" class="block w-full sm:w-32 px-4 py-3 text-lg border-gray-300 rounded-md text-center focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                             </div>
                         </div>
@@ -292,7 +453,7 @@
                 <div class="row-span-2">
                     <h3 class="text-2xl font-bold mb-5 text-gray-800">2. Your Current Flock</h3>
                     <div id="flockList" class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100 min-h-[250px] overflow-y-auto">
-                        <p id="flockPlaceholder" class="text-gray-500 text-center mt-12 text-lg">Your flock is currently empty. Start by adding some birds!</p>
+                        <p id="flockPlaceholder" class="text-xl text-gray-800 text-center mt-12 font-semibold">Your flock is currently empty. Start by adding some birds!</p>
                     </div>
                     <button id="resetFlockBtn" class="mt-6 w-full bg-[#8B0000] text-white font-extrabold py-3 px-6 rounded-lg text-lg shadow-md hover:bg-[#6b0000] transition-colors duration-300 transform hover:scale-105 hidden">Reset Flock</button>
                 </div>
@@ -300,7 +461,7 @@
                 <div>
                     <h3 class="text-2xl font-bold mb-5 text-gray-800">3. Calculate Production</h3>
                     <div id="calculationResults" class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100 space-y-6">
-                        <div class="text-center text-gray-500 text-lg">
+                        <div class="text-xl text-gray-800 text-center font-semibold">
                             <p>Add birds to your flock to see detailed production estimates.</p>
                         </div>
                     </div>
@@ -308,41 +469,40 @@
             </div>
         </section>
 
-        <!-- New Section: Flock Economics: Profit & Costs -->
-        <section id="flockEconomics" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200">
+        <section id="flockEconomics" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200 mb-32">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#1D8A99] drop-shadow-sm">Flock Economics: Profit & Costs</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">Estimate your potential profits and costs. Default values are based on average research, but feel free to adjust them to your local market for accurate projections!</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Estimate your potential profits and costs. Default values are based on average research, but feel free to adjust them to your local market for accurate projections!</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div>
                     <h3 class="text-2xl font-bold mb-5 text-gray-800">Set Your Costs & Prices</h3>
                     <div class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100 space-y-5">
                         <div>
-                            <label for="chickCostLayerInput" class="block text-base font-semibold text-gray-700 mb-2">Cost per Layer Chick ($)</label>
+                            <label for="chickCostLayerInput" class="block text-lg font-bold text-gray-900 mb-2">Cost per Layer Chick ($)</label>
                             <input type="number" id="chickCostLayerInput" value="4.00" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                         <div>
-                            <label for="chickCostDualPurposeInput" class="block text-base font-semibold text-gray-700 mb-2">Cost per Dual-Purpose Chick ($)</label>
+                            <label for="chickCostDualPurposeInput" class="block text-lg font-bold text-gray-900 mb-2">Cost per Dual-Purpose Chick ($)</label>
                             <input type="number" id="chickCostDualPurposeInput" value="3.50" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                         <div>
-                            <label for="chickCostMeatInput" class="block text-base font-semibold text-gray-700 mb-2">Cost per Meat Chick ($)</label>
+                            <label for="chickCostMeatInput" class="block text-lg font-bold text-gray-900 mb-2">Cost per Meat Chick ($)</label>
                             <input type="number" id="chickCostMeatInput" value="2.50" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                         <div>
-                            <label for="dailyFeedCostInput" class="block text-base font-semibold text-gray-700 mb-2">Avg. Daily Feed Cost per Bird ($)</label>
+                            <label for="dailyFeedCostInput" class="block text-lg font-bold text-gray-900 mb-2">Avg. Daily Feed Cost per Bird ($)</label>
                             <input type="number" id="dailyFeedCostInput" value="0.15" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                         <div>
-                            <label for="eggPriceDozenInput" class="block text-base font-semibold text-gray-700 mb-2">Selling Price per Dozen Eggs ($)</label>
+                            <label for="eggPriceDozenInput" class="block text-lg font-bold text-gray-900 mb-2">Selling Price per Dozen Eggs ($)</label>
                             <input type="number" id="eggPriceDozenInput" value="5.00" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                         <div>
-                            <label for="meatPriceLbInput" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">Selling Price per lb of Meat ($)</label>
+                            <label for="meatPriceLbInput" class="block text-lg font-bold text-gray-900 mb-2">Selling Price per lb of Meat ($)</label>
                             <input type="number" id="meatPriceLbInput" value="3.00" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                         <div>
-                            <label for="initialSetupCostInput" class="block text-base font-semibold text-gray-700 mb-2">Initial Coop/Brooder Setup Cost ($)</label>
+                            <label for="initialSetupCostInput" class="block text-lg font-bold text-gray-900 mb-2">Initial Coop/Brooder Setup Cost ($)</label>
                             <input type="number" id="initialSetupCostInput" value="750.00" min="0" step="0.01" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         </div>
                     </div>
@@ -351,7 +511,7 @@
                 <div>
                     <h3 class="text-2xl font-bold mb-5 text-gray-800">Your Economic Snapshot</h3>
                     <div id="economicResults" class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100 space-y-6">
-                        <div class="text-center text-gray-500 text-lg">
+                        <div class="text-xl text-gray-800 text-center font-semibold">
                             <p>Adjust costs and add birds to your flock to see your economic projections.</p>
                         </div>
                     </div>
@@ -361,14 +521,14 @@
 
         <section id="breedCharacteristics" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#DAA520] drop-shadow-sm">Breeds and Their Characteristics</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">Explore the details of each chicken breed, including their typical appearance, egg-laying capabilities, size, and more.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Explore the details of each chicken breed, including their typical appearance, egg-laying capabilities, size, and more.</p>
             
             <div class="flex flex-col items-center">
                 <div class="w-full max-w-md mb-8">
-                    <label for="breedCharacteristicsSelect" class="block text-base font-semibold text-gray-700 mb-2">Select a Breed to Learn More</label>
+                    <label for="breedCharacteristicsSelect" class="block text-lg font-bold text-gray-900 mb-2">Select a Breed to Learn More</label>
                     <select id="breedCharacteristicsSelect" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all"></select>
                 </div>
-                <div id="breedCharacteristicsDisplay" class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100 w-full max-w-2xl min-h-[300px] flex items-center justify-center text-gray-500 text-lg">
+                <div id="breedCharacteristicsDisplay" class="bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-100 w-full max-w-2xl min-h-[300px] flex items-center justify-center text-xl text-gray-800 font-semibold">
                     Select a breed to see its characteristics.
                 </div>
             </div>
@@ -376,14 +536,14 @@
 
         <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#FF6F00] drop-shadow-sm">Add a Custom Breed</h2>
-            <p class="text-center text-gray-700 max-w-4xl mx-auto mb-10 text-lg leading-relaxed">Define your own chicken breed to add to your flock. Custom breeds will instantly appear in the breed selection dropdown for calculation.</p>
+            <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Define your own chicken breed to add to your flock. Custom breeds will instantly appear in the breed selection dropdown for calculation.</p>
             <form id="customBreedForm" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
-                    <label for="customBreedName" class="block text-base font-semibold text-gray-700 mb-2">Breed Name</label>
+                    <label for="customBreedName" class="block text-lg font-bold text-gray-900 mb-2">Breed Name</label>
                     <input type="text" id="customBreedName" required class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                 </div>
                 <div>
-                    <label for="customBreedType" class="block text-base font-semibold text-gray-700 mb-2">Type</label>
+                    <label for="customBreedType" class="block text-lg font-bold text-gray-900 mb-2">Type</label>
                     <select id="customBreedType" required class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                         <option value="Layer">Layer</option>
                         <option value="Dual-Purpose">Dual-Purpose</option>
@@ -391,23 +551,23 @@
                     </select>
                 </div>
                 <div>
-                    <label for="customBreedEggs" class="block text-base font-semibold text-gray-700 mb-2">Avg. Eggs/Year</label>
+                    <label for="customBreedEggs" class="block text-lg font-bold text-gray-900 mb-2">Avg. Eggs/Year</label>
                     <input type="number" id="customBreedEggs" min="0" value="0" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                 </div>
                 <div>
-                    <label for="customBreedWeightHen" class="block text-base font-semibold text-gray-700 mb-2">Hen Weight (lbs)</label>
+                    <label for="customBreedWeightHen" class="block text-lg font-bold text-gray-900 mb-2">Hen Weight (lbs)</label>
                     <input type="number" id="customBreedWeightHen" min="0" step="0.1" value="0" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                 </div>
                 <div>
-                    <label for="customBreedWeightRooster" class="block text-base font-semibold text-gray-700 mb-2">Rooster Weight (lbs)</label>
+                    <label for="customBreedWeightRooster" class="block text-lg font-bold text-gray-900 mb-2">Rooster Weight (lbs)</label>
                     <input type="number" id="customBreedWeightRooster" min="0" step="0.1" value="0" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                 </div>
                 <div>
-                    <label for="customBreedSlaughterAge" class="block text-base font-semibold text-gray-700 mb-2">Slaughter Age (weeks)</label>
+                    <label for="customBreedSlaughterAge" class="block text-lg font-bold text-gray-900 mb-2">Slaughter Age (weeks)</label>
                     <input type="number" id="customBreedSlaughterAge" min="0" step="1" value="" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                 </div>
                 <div>
-                    <label for="customBreedEggColor" class="block text-base font-semibold text-gray-700 mb-2">Egg Color</label>
+                    <label for="customBreedEggColor" class="block text-lg font-bold text-gray-900 mb-2">Egg Color</label>
                     <input type="text" id="customBreedEggColor" class="block w-full px-4 py-3 text-lg border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF6F00] focus:border-transparent transition-all">
                 </div>
                 <div class="md:col-span-2 flex justify-center mt-4">
@@ -421,7 +581,7 @@
     <footer class="bg-gray-900 text-white mt-20">
         <div class="container mx-auto p-8 text-center">
             <p class="text-xl font-semibold mb-3">Happy Homesteading!</p>
-            <p class="text-sm text-gray-400 leading-relaxed">Data compiled for New England climates. Always research specific breed needs and local regulations before purchasing.</p>
+            <p class="text-base text-gray-700 leading-relaxed font-semibold">Data compiled for New England climates. Always research specific breed needs and local regulations before purchasing.</p>
         </div>
         <div style="text-align:center; padding-bottom:1.5em; font-size:0.9em; color:#888;">
             <a href="LICENSE" target="_blank" class="hover:text-white transition-colors">License</a> |
@@ -447,27 +607,27 @@
 
         // Comprehensive breed data including egg production, weight, slaughter age, egg color, and chick cost category
         const breedData = {
-            'Golden Comet': { type: 'Layer (hybrid)', avgEggs: 320, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/golden_comet.png' },
-            'White Leghorn': { type: 'Layer', avgEggs: 310, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'White', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/white_leghorn.png' },
-            'Rhode Island Red': { type: 'Dual/Layers', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/rhode_island_red.png' },
-            'Australorp': { type: 'Layer/Dual', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/australorp.png' },
-            'Easter Egger': { type: 'Layer', avgEggs: 250, weightHen: 4, weightRooster: 5, slaughterAge: null, eggColor: 'Blue/Green/Pink', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/easter_egger.png' },
-            'Plymouth Rock': { type: 'Dual-Purpose', avgEggs: 250, weightHen: 7.5, weightRooster: 9.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/plymouth_rock.png' },
-            'Wyandotte': { type: 'Dual-Purpose', avgEggs: 225, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/wyandotte.png' },
-            'Orpington': { type: 'Dual-Purpose', avgEggs: 185, weightHen: 8, weightRooster: 10, slaughterAge: 20, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/orpington.png' },
-            'New Hampshire Red': { type: 'Dual-Purpose', avgEggs: 210, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 16, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/new_hampshire_red.png' },
-            'Sussex': { type: 'Dual-Purpose', avgEggs: 260, weightHen: 7, weightRooster: 9, slaughterAge: 18, eggColor: 'Light Brown/Tinted', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/sussex.png' },
-            'Brahma': { type: 'Dual-Purpose', avgEggs: 170, weightHen: 9.5, weightRooster: 12, slaughterAge: 22, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/brahma.png' },
-            'Cochin': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 8.5, weightRooster: 11, slaughterAge: 24, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/cochin.png' },
-            'Chantecler': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/chantecler.png' },
-            'Marans': { type: 'Dual-Purpose', avgEggs: 170, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Dark Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/marans.png' },
-            'Cornish Cross': { type: 'Meat', avgEggs: 0, weightHen: 8, weightRooster: 12, slaughterAge: 9, eggColor: null, imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/cornish_cross.png' },
-            'Freedom Ranger': { type: 'Meat', avgEggs: 0, weightHen: 6, weightRooster: 9, slaughterAge: 11, eggColor: null, imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/freedom_ranger.png' },
-            'Giant Cochin': { type: 'Dual-Purpose', avgEggs: 160, weightHen: 11, weightRooster: 13, slaughterAge: 26, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/giant_cochin.png' },
-            'Jersey Giant': { type: 'Dual-Purpose', avgEggs: 175, weightHen: 10, weightRooster: 13, slaughterAge: 24, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/jersey_giant.png' },
-            'Buckeye': { type: 'Dual-Purpose', avgEggs: 190, weightHen: 6, weightRooster: 7, slaughterAge: 18, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/buckeye.png' },
-            'Delaware': { type: 'Dual-Purpose', avgEggs: 250, weightHen: 6, weightRooster: 8, slaughterAge: 14, eggColor: 'Brown', imageUrl: 'https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/delaware.png' }
-};
+            'Golden Comet': { type: 'Layer (hybrid)', avgEggs: 320, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'Brown', imageUrl: '/images/breeds/golden_comet.png' },
+            'White Leghorn': { type: 'Layer', avgEggs: 310, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'White', imageUrl: '/images/breeds/white_leghorn.png' },
+            'Rhode Island Red': { type: 'Dual/Layers', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: '/images/breeds/rhode_island_red.png' },
+            'Australorp': { type: 'Layer/Dual', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: '/images/breeds/australorp.png' },
+            'Easter Egger': { type: 'Layer', avgEggs: 250, weightHen: 4, weightRooster: 5, slaughterAge: null, eggColor: 'Blue/Green/Pink', imageUrl: '/images/breeds/easter_egger.png' },
+            'Plymouth Rock': { type: 'Dual-Purpose', avgEggs: 250, weightHen: 7.5, weightRooster: 9.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: '/images/breeds/plymouth_rock.png' },
+            'Wyandotte': { type: 'Dual-Purpose', avgEggs: 225, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: '/images/breeds/wyandotte.png' },
+            'Orpington': { type: 'Dual-Purpose', avgEggs: 185, weightHen: 8, weightRooster: 10, slaughterAge: 20, eggColor: 'Brown', imageUrl: '/images/breeds/orpington.png' },
+            'New Hampshire Red': { type: 'Dual-Purpose', avgEggs: 210, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 16, eggColor: 'Brown', imageUrl: '/images/breeds/new_hampshire_red.png' },
+            'Sussex': { type: 'Dual-Purpose', avgEggs: 260, weightHen: 7, weightRooster: 9, slaughterAge: 18, eggColor: 'Light Brown/Tinted', imageUrl: '/images/breeds/sussex.png' },
+            'Brahma': { type: 'Dual-Purpose', avgEggs: 170, weightHen: 9.5, weightRooster: 12, slaughterAge: 22, eggColor: 'Brown', imageUrl: '/images/breeds/brahma.png' },
+            'Cochin': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 8.5, weightRooster: 11, slaughterAge: 24, eggColor: 'Brown', imageUrl: '/images/breeds/cochin.png' },
+            'Chantecler': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Brown', imageUrl: '/images/breeds/chantecler.png' },
+            'Marans': { type: 'Dual-Purpose', avgEggs: 170, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Dark Brown', imageUrl: '/images/breeds/marans.png' },
+            'Cornish Cross': { type: 'Meat', avgEggs: 0, weightHen: 8, weightRooster: 12, slaughterAge: 9, eggColor: null, imageUrl: '/images/breeds/cornish_cross.png' }, // Meat chickens typically don't lay
+            'Freedom Ranger': { type: 'Meat', avgEggs: 0, weightHen: 6, weightRooster: 9, slaughterAge: 11, eggColor: null, imageUrl: '/images/breeds/freedom_ranger.png' },
+            'Giant Cochin': { type: 'Dual-Purpose', avgEggs: 160, weightHen: 11, weightRooster: 13, slaughterAge: 26, eggColor: 'Brown', imageUrl: '/images/breeds/giant_cochin.png' },
+            'Jersey Giant': { type: 'Dual-Purpose', avgEggs: 175, weightHen: 10, weightRooster: 13, slaughterAge: 24, eggColor: 'Brown', imageUrl: '/images/breeds/jersey_giant.png' },
+            'Buckeye': { type: 'Dual-Purpose', avgEggs: 190, weightHen: 6, weightRooster: 7, slaughterAge: 18, eggColor: 'Brown', imageUrl: '/images/breeds/buckeye.png' },
+            'Delaware': { type: 'Dual-Purpose', avgEggs: 250, weightHen: 6, weightRooster: 8, slaughterAge: 14, eggColor: 'Brown', imageUrl: '/images/breeds/delaware.png' }
+        };
 
         let currentFlock = []; // Array to store { breed: 'BreedName', quantity: X } objects
 
@@ -536,17 +696,6 @@
                             },
                             grid: {
                                 color: '#eee'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Breed',
-                                font: { size: 16, weight: 'bold' },
-                                color: '#555'
-                            },
-                            grid: {
-                                display: false
                             },
                             ticks: {
                                 font: { size: 14 }
@@ -735,6 +884,9 @@
                             },
                             grid: {
                                 color: '#eee'
+                            },
+                            ticks: {
+                                font: { size: 14 }
                             }
                         },
                         x: {
@@ -883,10 +1035,10 @@
             flockListDiv.innerHTML = ''; // Clear current list
 
             if (currentFlock.length === 0) {
-                flockListDiv.innerHTML = `<p id="flockPlaceholder" class="text-gray-500 text-center mt-12 text-lg">Your flock is currently empty. Start by adding some birds!</p>`;
+                flockListDiv.innerHTML = `<p id="flockPlaceholder" class="text-xl text-gray-800 text-center mt-12 font-semibold">Your flock is currently empty. Start by adding some birds!</p>`;
                 document.getElementById('resetFlockBtn').classList.add('hidden');
-                document.getElementById('economicResults').innerHTML = `<div class="text-center text-gray-500 text-lg"><p>Adjust costs and add birds to your flock to see your economic projections.</p></div>`;
-                document.getElementById('calculationResults').innerHTML = `<div class="text-center text-gray-500 text-lg"><p>Add birds to your flock to see detailed production estimates.</p></div>`;
+                document.getElementById('economicResults').innerHTML = `<div class="text-xl text-gray-800 text-center font-semibold"><p>Adjust costs and add birds to your flock to see your economic projections.</p></div>`;
+                document.getElementById('calculationResults').innerHTML = `<div class="text-xl text-gray-800 text-center font-semibold"><p>Add birds to your flock to see detailed production estimates.</p></div>`;
                 return;
             }
 
@@ -901,9 +1053,9 @@
                 itemDiv.className = 'flex justify-between items-center bg-white p-4 rounded-md shadow-sm mb-3 border border-gray-200';
                 itemDiv.innerHTML = `
                     <div class="flex-grow">
-                        <p class="text-lg font-semibold text-gray-800">${bird.quantity}x ${bird.breed}</p>
-                        <p class="text-sm text-gray-600">${breed.type} - ${breed.avgEggs} eggs/year - ${breed.weightHen}lbs hen</p>
-                        ${breed.eggColor ? `<span class="egg-color-dot" style="background-color: ${getEggColorHex(breed.eggColor)};"></span><span class="text-sm text-gray-600">${breed.eggColor} Eggs</span>` : ''}
+                        <p class="text-xl font-bold text-gray-900">${bird.quantity}x ${bird.breed}</p>
+                        <p class="text-base text-gray-700 font-semibold">${breed.type} - ${breed.avgEggs} eggs/year - ${breed.weightHen}lbs hen</p>
+                        ${breed.eggColor ? `<span class="egg-color-dot" style="background-color: ${getEggColorHex(breed.eggColor)};"></span><span class="text-base text-gray-700 font-semibold">${breed.eggColor} Eggs</span>` : ''}
                     </div>
                     <button data-index="${index}" class="remove-bird-btn bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -942,7 +1094,7 @@
                     // For meat production, assume all birds in the quantity will be raised for meat if they have a slaughter age
                     if (breed.slaughterAge && (breed.type.includes('Meat') || breed.type.includes('Dual'))) {
                         // For simplicity, use rooster weight for meat calculation as it's typically larger for meat
-                        totalMeatPerYear += (breed.weightRooster || breed.weightHen) * bird.quantity;
+                        totalMeatPerYear += (breed.weightRooster || breed.weightHen) * meatPriceLb * bird.quantity;
                     }
                 }
             });
@@ -950,11 +1102,11 @@
             const resultsDiv = document.getElementById('calculationResults');
             resultsDiv.innerHTML = `
                 <div class="flex justify-between items-center p-3 bg-white rounded-md shadow-sm border border-gray-200">
-                    <p class="text-lg font-semibold text-[#1D8A99]">Estimated Annual Eggs:</p>
+                    <p class="text-xl font-bold text-[#1D8A99]">Estimated Annual Eggs:</p>
                     <p class="text-xl font-bold text-gray-900">${totalEggsPerYear.toLocaleString()} eggs</p>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-white rounded-md shadow-sm border border-gray-200">
-                    <p class="text-lg font-semibold text-[#2F4F4F]">Estimated Annual Meat:</p>
+                    <p class="text-xl font-bold text-[#2F4F4F]">Estimated Annual Meat:</p>
                     <p class="text-xl font-bold text-gray-900">${totalMeatPerYear.toFixed(1)} lbs</p>
                 </div>
             `;
@@ -1009,18 +1161,18 @@
             economicResultsDiv.innerHTML = `
                 <h4 class="text-xl font-bold text-gray-800 border-b pb-2 mb-4">Projected Finances (First Year)</h4>
                 <div class="flex justify-between items-center p-3 bg-white rounded-md shadow-sm border border-gray-200">
-                    <p class="text-lg font-semibold text-[#1D8A99]">Total Projected Income:</p>
+                    <p class="text-xl font-bold text-[#1D8A99]">Total Projected Income:</p>
                     <p class="text-xl font-bold text-gray-900">$${totalIncome.toFixed(2)}</p>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-white rounded-md shadow-sm border border-gray-200">
-                    <p class="text-lg font-semibold text-[#8B0000]">Total Projected Costs:</p>
+                    <p class="text-xl font-bold text-[#8B0000]">Total Projected Costs:</p>
                     <p class="text-xl font-bold text-gray-900">$${totalCosts.toFixed(2)}</p>
                 </div>
                 <div class="flex justify-between items-center p-3 bg-white rounded-md shadow-sm border border-gray-200">
-                    <p class="text-lg font-semibold ${netProfit >= 0 ? 'text-[#1D8A99]' : 'text-red-500'}">Net Profit/Loss:</p>
+                    <p class="text-xl font-bold ${netProfit >= 0 ? 'text-[#1D8A99]' : 'text-red-500'}">Net Profit/Loss:</p>
                     <p class="text-xl font-bold text-gray-900">$${netProfit.toFixed(2)}</p>
                 </div>
-                <p class="text-sm text-gray-600 text-center mt-4"><em>Note: This is a simplified projection. Real-world results may vary due to mortality, market fluctuations, and other factors.</em></p>
+                <p class="text-base text-gray-700 text-center mt-4 font-semibold"><em>Note: This is a simplified projection. Real-world results may vary due0to mortality, market fluctuations, and other factors.</em></p>
             `;
         }
 
@@ -1051,7 +1203,7 @@
             const breed = breedData[breedName];
             const characteristicsDiv = document.getElementById('breedCharacteristicsDisplay');
             if (!breed) {
-                characteristicsDiv.innerHTML = '<p class="text-gray-500 text-center mt-4">Select a breed to see its characteristics.</p>';
+                characteristicsDiv.innerHTML = '<p class="text-xl text-gray-800 text-center mt-4 font-semibold">Select a breed to see its characteristics.</p>';
                 return;
             }
 
@@ -1059,7 +1211,7 @@
                 <div class="flex flex-col items-center p-4">
                     <img src="${breed.imageUrl}" alt="${breedName}" class="rounded-lg shadow-md mb-4 w-full max-w-xs h-auto object-cover">
                     <h3 class="text-3xl font-bold text-gray-900 mb-3 text-center">${breedName}</h3>
-                    <div class="space-y-2 text-lg text-gray-700 w-full max-w-md">
+                    <div class="space-y-2 text-xl text-gray-800 w-full max-w-md font-semibold">
                         <p><strong>Type:</strong> ${breed.type}</p>
                         <p><strong>Avg. Eggs/Year:</strong> ${breed.avgEggs > 0 ? breed.avgEggs : 'N/A'}</p>
                         <p><strong>Hen Weight:</strong> ${breed.weightHen} lbs</p>
@@ -1133,11 +1285,11 @@
                 const type = document.getElementById('customBreedType').value;
                 const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
                 const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
-                const roosterWeight = parseFloat(document.getElementById('customBreedWeightRooster').value) || 0;
+                const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
                 const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
                 const eggColor = document.getElementById('customBreedEggColor').value.trim();
                 // For custom breeds, set a generic local image path.
-                const imageUrl = '/https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/custom_breed.png'; 
+                const imageUrl = '/images/breeds/custom_breed.png'; 
 
                 if (name && !breedData[name]) {
                     breedData[name] = {
@@ -1192,6 +1344,83 @@
             calculateProduction();
             calculateEconomics();
         });
+
+        // Function to update the background image with the generated image
+        async function updateBackgroundImage() {
+            const body = document.body;
+            body.style.backgroundImage = 'none'; // Remove placeholder background color
+            body.style.backgroundColor = '#f8f8f8'; // A light background color while loading
+            body.style.transition = 'background-image 0.5s ease-in-out'; // Smooth transition
+
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.id = 'loading-overlay';
+            loadingOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+                font-family: 'Inter', sans-serif;
+                font-size: 1.5rem;
+                color: #333;
+            `;
+            loadingOverlay.textContent = 'Generating beautiful paper texture background...';
+            document.body.appendChild(loadingOverlay);
+
+            try {
+                const payload = { instances: { prompt: "subtle, seamless, light natural paper texture background, tileable" }, parameters: { "sampleCount": 1} };
+                const apiKey = "" 
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                console.log('Image generation API response:', result); // Log the full response
+                
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                    body.style.backgroundImage = `url('${imageUrl}')`;
+                    body.style.backgroundColor = 'transparent'; // Remove solid background color once image loads
+
+                    // Update the flowchart connector arrow's background color to match the new image background
+                    const styleElement = document.createElement('style');
+                    styleElement.innerHTML = `.flowchart-connector::after { background-color: transparent; }`; // Use transparent for image background
+                    document.head.appendChild(styleElement);
+                } else {
+                    console.error('Image generation failed or returned no image in predictions property.');
+                    body.style.backgroundImage = 'none';
+                    body.style.backgroundColor = '#CCCCFF'; // Fallback to heather blue
+                    // Fallback for flowchart arrow
+                    const styleElement = document.createElement('style');
+                    styleElement.innerHTML = `.flowchart-connector::after { background-color: #CCCCFF; }`;
+                    document.head.appendChild(styleElement);
+                }
+            } catch (error) {
+                console.error('Error generating image:', error);
+                body.style.backgroundImage = 'none';
+                body.style.backgroundColor = '#CCCCFF'; // Fallback to heather blue
+                // Fallback for flowchart arrow
+                const styleElement = document.createElement('style');
+                styleElement.innerHTML = `.flowchart-connector::after { background-color: #CCCCFF; }`;
+                document.head.appendChild(styleElement);
+            } finally {
+                if (loadingOverlay) {
+                    loadingOverlay.remove();
+                }
+            }
+        }
+
+        // Call the function to update the background image when the page loads
+        window.addEventListener('load', updateBackgroundImage);
     </script>
 </body>
 </html>
