@@ -584,10 +584,6 @@
                             <span class="text-gray-600">x ${item.quantity}</span>
                         </div>
                         <button data-index="${index}" class="text-red-500 hover:text-red-700 font-bold p-1 rounded hover:bg-red-100 transition-colors">Remove</button>
-                    `;
-                    list.appendChild(listItem);
-                });
-                flockList.appendChild(list);
                 
                 // Add event listeners to newly created "Remove" buttons
                 flockList.querySelectorAll('button').forEach(button => {
