@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choosing Your New England Flock</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1201,6 +1202,7 @@
          * @returns {string} Hex color code.
          */
         function getEggColorHex(colorName) {
+
             switch (colorName.toLowerCase()) {
                 case 'brown': return '#8B4513'; // SaddleBrown
                 case 'dark brown': return '#654321'; // Darker brown
@@ -1244,124 +1246,121 @@
 
 
         // --- Event Listeners and Initial Load ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize Charts
-            initEggLayersChart();
-            initDualPurposeChart();
-            initMeatProducersChart();
-            initWeightDistributionChart();
+        // Initialize Charts
+        initEggLayersChart();
+        initDualPurposeChart();
+        initMeatProducersChart();
+        initWeightDistributionChart();
 
-            // Populate breed dropdowns initially
-            populateBreedSelects();
+        // Populate breed dropdowns initially
+        populateBreedSelects();
 
-            // Flock Builder Event Listeners
-            const addBirdBtn = document.getElementById('addBirdBtn');
-            const breedSelectFlock = document.getElementById('breedSelect');
-            const quantityInput = document.getElementById('quantityInput');
-            const resetFlockBtn = document.getElementById('resetFlockBtn');
-            const customBreedForm = document.getElementById('customBreedForm');
-            const breedCharacteristicsSelect = document.getElementById('breedCharacteristicsSelect');
+        // Flock Builder Event Listeners
+        const addBirdBtn = document.getElementById('addBirdBtn');
+        const breedSelectFlock = document.getElementById('breedSelect');
+        const quantityInput = document.getElementById('quantityInput');
+        const resetFlockBtn = document.getElementById('resetFlockBtn');
+        const customBreedForm = document.getElementById('customBreedForm');
+        const breedCharacteristicsSelect = document.getElementById('breedCharacteristicsSelect');
 
 
-            addBirdBtn.addEventListener('click', () => {
-                const selectedBreed = breedSelectFlock.value;
-                const quantity = parseInt(quantityInput.value);
+        addBirdBtn.addEventListener('click', () => {
+            const selectedBreed = breedSelectFlock.value;
+            const quantity = parseInt(quantityInput.value);
 
-                if (selectedBreed && quantity > 0) {
-                    const existingBirdIndex = currentFlock.findIndex(bird => bird.breed === selectedBreed);
-                    if (existingBirdIndex > -1) {
-                        currentFlock[existingBirdIndex].quantity += quantity;
-                    } else {
-                        currentFlock.push({ breed: selectedBreed, quantity: quantity });
-                    }
-                    renderFlockList();
-                    calculateProduction();
-                    calculateEconomics();
+            if (selectedBreed && quantity > 0) {
+                const existingBirdIndex = currentFlock.findIndex(bird => bird.breed === selectedBreed);
+                if (existingBirdIndex > -1) {
+                    currentFlock[existingBirdIndex].quantity += quantity;
                 } else {
-                    console.warn("Please select a breed and enter a valid quantity.");
+                    currentFlock.push({ breed: selectedBreed, quantity: quantity });
                 }
-            });
-
-            resetFlockBtn.addEventListener('click', () => {
-                currentFlock = [];
                 renderFlockList();
                 calculateProduction();
                 calculateEconomics();
-            });
+            } else {
+                console.warn("Please select a breed and enter a valid quantity.");
+            }
+        });
 
-            // Economics Input Change Listeners
-            const economicInputs = document.querySelectorAll('#flockEconomics input[type="number"]');
-            economicInputs.forEach(input => {
-                input.addEventListener('input', calculateEconomics);
-            });
-
-            // Custom Breed Form Submission
-            customBreedForm.addEventListener('submit', (event) => {
-                event.preventDefault(); // Prevent default form submission
-
-                const name = document.getElementById('customBreedName').value.trim();
-                const type = document.getElementById('customBreedType').value;
-                const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
-                const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
-                const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
-                const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
-                const eggColor = document.getElementById('customBreedEggColor').value.trim();
-                // For custom breeds, set a generic local image path.
-                const imageUrl = 'https://placehold.co/100x100?text=Custom+Breed'; 
-
-                if (name && !breedData[name]) {
-                    breedData[name] = {
-                        type: type,
-                        avgEggs: eggs,
-                        weightHen: henWeight,
-                        weightRooster: roosterWeight,
-                        slaughterAge: slaughterAge,
-                        eggColor: eggColor || null,
-                        imageUrl: imageUrl // Add the image URL for custom breeds
-                    };
-
-                    populateBreedSelects(); // Re-populate dropdowns with new breed
-                    // Optionally, select the newly added breed in both dropdowns
-                    breedSelectFlock.value = name;
-                    breedCharacteristicsSelect.value = name;
-                    displayBreedCharacteristics(name); // Display the new custom breed
-
-                    // Clear form fields
-                    customBreedForm.reset();
-                    document.getElementById('customBreedEggs').value = "0";
-                    document.getElementById('customBreedWeightHen').value = "0";
-                    document.getElementById('customBreedWeightRooster').value = "0";
-                    document.getElementById('customBreedSlaughterAge').value = "";
-                    
-                    // Re-render charts to include the new breed if applicable
-                    initEggLayersChart();
-                    initDualPurposeChart();
-                    initMeatProducersChart();
-                    initWeightDistributionChart();
-
-                    // Update production/economics if the custom breed is added to the flock
-                    calculateProduction();
-                    calculateEconomics();
-                    // Using alert here for simplicity, but in a real app, use a custom modal.
-                    alert(`Custom breed "${name}" added successfully! You can now add it to your flock.`); 
-                } else if (breedData[name]) {
-                    alert(`Breed "${name}" already exists! Please choose a unique name.`);
-                } else {
-                    alert("Please fill in all required fields for your custom breed.");
-                }
-            });
-
-            // Event listener for breed characteristics dropdown change
-            breedCharacteristicsSelect.addEventListener('change', (event) => {
-                displayBreedCharacteristics(event.target.value);
-            });
-
-
-            // Initial render of flock and calculations (will show placeholders)
+        resetFlockBtn.addEventListener('click', () => {
+            currentFlock = [];
             renderFlockList();
             calculateProduction();
             calculateEconomics();
         });
+
+        // Economics Input Change Listeners
+        const economicInputs = document.querySelectorAll('#flockEconomics input[type="number"]');
+        economicInputs.forEach(input => {
+            input.addEventListener('input', calculateEconomics);
+        });
+
+        // Custom Breed Form Submission
+        customBreedForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('customBreedName').value.trim();
+            const type = document.getElementById('customBreedType').value;
+            const eggs = parseInt(document.getElementById('customBreedEggs').value) || 0;
+            const henWeight = parseFloat(document.getElementById('customBreedWeightHen').value) || 0;
+            const roosterWeight = parseFloat(document.getElementById('customBreedRooster').value) || 0;
+            const slaughterAge = parseInt(document.getElementById('customBreedSlaughterAge').value) || null;
+            const eggColor = document.getElementById('customBreedEggColor').value.trim();
+            // For custom breeds, set a generic local image path.
+            const imageUrl = 'https://placehold.co/100x100?text=Custom+Breed'; 
+
+            if (name && !breedData[name]) {
+                breedData[name] = {
+                    type: type,
+                    avgEggs: eggs,
+                    weightHen: henWeight,
+                    weightRooster: roosterWeight,
+                    slaughterAge: slaughterAge,
+                    eggColor: eggColor || null,
+                    imageUrl: imageUrl // Add the image URL for custom breeds
+                };
+
+                populateBreedSelects(); // Re-populate dropdowns with new breed
+                // Optionally, select the newly added breed in both dropdowns
+                breedSelectFlock.value = name;
+                breedCharacteristicsSelect.value = name;
+                displayBreedCharacteristics(name); // Display the new custom breed
+
+                // Clear form fields
+                customBreedForm.reset();
+                document.getElementById('customBreedEggs').value = "0";
+                document.getElementById('customBreedWeightHen').value = "0";
+                document.getElementById('customBreedWeightRooster').value = "0";
+                document.getElementById('customBreedSlaughterAge').value = "";
+                
+                // Re-render charts to include the new breed if applicable
+                initEggLayersChart();
+                initDualPurposeChart();
+                initMeatProducersChart();
+                initWeightDistributionChart();
+
+                // Update production/economics if the custom breed is added to the flock
+                calculateProduction();
+                calculateEconomics();
+                // Using alert here for simplicity, but in a real app, use a custom modal.
+                alert(`Custom breed "${name}" added successfully! You can now add it to your flock.`); 
+            } else if (breedData[name]) {
+                alert(`Breed "${name}" already exists! Please choose a unique name.`);
+            } else {
+                alert("Please fill in all required fields for your custom breed.");
+            }
+        });
+
+        // Event listener for breed characteristics dropdown change
+        breedCharacteristicsSelect.addEventListener('change', (event) => {
+            displayBreedCharacteristics(event.target.value);
+        });
+
+        // Initial render of flock and calculations (will show placeholders)
+        renderFlockList();
+        calculateProduction();
+        calculateEconomics();
     </script>
 </body>
 </html>
