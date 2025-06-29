@@ -447,27 +447,28 @@
 
         // Comprehensive breed data including egg production, weight, slaughter age, egg color, and chick cost category
         const breedData = {
-            'Golden Comet': { type: 'Layer', avgEggs: 315, weightHen: 4, weightRooster: 6, slaughterAge: null, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/FFD700/000?text=Golden+Comet' },
-            'White Leghorn': { type: 'Layer', avgEggs: 300, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'White', imageUrl: 'https://placehold.co/300x200/F8F8F8/000?text=White+Leghorn' },
-            'Rhode Island Red': { type: 'Layer', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/CD5C5C/FFF?text=Rhode+Island+Red' },
-            'Australorp': { type: 'Layer', avgEggs: 250, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/2F4F4F/FFF?text=Australorp' },
-            'Easter Egger': { type: 'Layer', avgEggs: 240, weightHen: 4, weightRooster: 5, slaughterAge: null, eggColor: 'Blue/Green/Pink', imageUrl: 'https://placehold.co/300x200/ADD8E6/000?text=Easter+Egger' },
-            'Plymouth Rock': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 7.5, weightRooster: 9.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/6A5ACD/FFF?text=Plymouth+Rock' },
-            'Wyandotte': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/DAA520/000?text=Wyandotte' },
-            'Orpington': { type: 'Dual-Purpose', avgEggs: 180, weightHen: 8, weightRooster: 10, slaughterAge: 20, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/F4A460/FFF?text=Orpington' },
-            'New Hampshire Red': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 16, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/A52A2A/FFF?text=New+Hampshire+Red' },
-            'Sussex': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 7, weightRooster: 9, slaughterAge: 18, eggColor: 'Cream/Tinted', imageUrl: 'https://placehold.co/300x200/C0C0C0/000?text=Sussex' },
-            'Brahma': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 9.5, weightRooster: 12, slaughterAge: 22, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/B0C4DE/000?text=Brahma' },
-            'Cochin': { type: 'Dual-Purpose', avgEggs: 120, weightHen: 8.5, weightRooster: 11, slaughterAge: 24, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/CD853F/FFF?text=Cochin' },
-            'Chantecler': { type: 'Dual-Purpose', avgEggs: 180, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/DCDCDC/000?text=Chantecler' },
-            'Marans': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Dark Brown', imageUrl: 'https://placehold.co/300x200/4B0082/FFF?text=Marans' },
-            'Cornish Cross': { type: 'Meat', avgEggs: 0, weightHen: 8, weightRooster: 12, slaughterAge: 9, eggColor: null, imageUrl: 'https://placehold.co/300x200/FFFDD0/000?text=Cornish+Cross' }, // Meat chickens typically don't lay
-            'Freedom Ranger': { type: 'Meat', avgEggs: 0, weightHen: 6, weightRooster: 9, slaughterAge: 11, eggColor: null, imageUrl: 'https://placehold.co/300x200/FF6347/FFF?text=Freedom+Ranger' },
-            'Giant Cochin': { type: 'Dual-Purpose', avgEggs: 120, weightHen: 11, weightRooster: 13, slaughterAge: 26, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/8B4513/FFF?text=Giant+Cochin'},
-            'Jersey Giant': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 10, weightRooster: 13, slaughterAge: 24, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/000000/FFF?text=Jersey+Giant'},
-            'Buckeye': { type: 'Dual-Purpose', avgEggs: 180, weightHen: 6, weightRooster: 7, slaughterAge: 18, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/8B0000/FFF?text=Buckeye'},
-            'Delaware': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 6, weightRooster: 8, slaughterAge: 14, eggColor: 'Brown', imageUrl: 'https://placehold.co/300x200/D3D3D3/000?text=Delaware'}
+        'Golden Comet': { type: 'Layer', avgEggs: 320, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'Brown', imageUrl: '/images/breeds/golden_comet.jpg' },
+        'White Leghorn': { type: 'Layer', avgEggs: 310, weightHen: 4.5, weightRooster: 6, slaughterAge: null, eggColor: 'White', imageUrl: '/images/breeds/white_leghorn.jpg' },
+        'Rhode Island Red': { type: 'Dual-Purpose', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: '/images/breeds/rhode_island_red.jpg' },
+        'Australorp': { type: 'Dual-Purpose', avgEggs: 275, weightHen: 6.5, weightRooster: 8.5, slaughterAge: null, eggColor: 'Brown', imageUrl: '/images/breeds/australorp.jpg' },
+        'Easter Egger': { type: 'Layer', avgEggs: 250, weightHen: 4, weightRooster: 5, slaughterAge: null, eggColor: 'Blue/Green/Pink', imageUrl: '/images/breeds/easter_egger.jpg' },
+        'Plymouth Rock': { type: 'Dual-Purpose', avgEggs: 250, weightHen: 7.5, weightRooster: 9.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: '/images/breeds/plymouth_rock.jpg' },
+        'Wyandotte': { type: 'Dual-Purpose', avgEggs: 225, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 18, eggColor: 'Brown', imageUrl: '/images/breeds/wyandotte.jpg' },
+        'Orpington': { type: 'Dual-Purpose', avgEggs: 185, weightHen: 8, weightRooster: 10, slaughterAge: 20, eggColor: 'Brown', imageUrl: '/images/breeds/orpington.jpg' },
+        'New Hampshire Red': { type: 'Dual-Purpose', avgEggs: 210, weightHen: 6.5, weightRooster: 8.5, slaughterAge: 16, eggColor: 'Brown', imageUrl: '/images/breeds/new_hampshire_red.jpg' },
+        'Sussex': { type: 'Dual-Purpose', avgEggs: 260, weightHen: 7, weightRooster: 9, slaughterAge: 18, eggColor: 'Light Brown/Tinted', imageUrl: '/images/breeds/sussex.jpg' },
+        'Brahma': { type: 'Dual-Purpose', avgEggs: 170, weightHen: 9.5, weightRooster: 12, slaughterAge: 22, eggColor: 'Brown', imageUrl: '/images/breeds/brahma.jpg' },
+        'Cochin': { type: 'Dual-Purpose', avgEggs: 150, weightHen: 8.5, weightRooster: 11, slaughterAge: 24, eggColor: 'Brown', imageUrl: '/images/breeds/cochin.jpg' },
+        'Chantecler': { type: 'Dual-Purpose', avgEggs: 200, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Brown', imageUrl: '/images/breeds/chantecler.jpg' },
+        'Marans': { type: 'Dual-Purpose', avgEggs: 170, weightHen: 7, weightRooster: 9, slaughterAge: 20, eggColor: 'Dark Brown', imageUrl: '/images/breeds/marans.jpg' },
+        'Cornish Cross': { type: 'Meat', avgEggs: 0, weightHen: 8, weightRooster: 12, slaughterAge: 9, eggColor: null, imageUrl: '/images/breeds/cornish_cross.jpg' },
+        'Freedom Ranger': { type: 'Meat', avgEggs: 0, weightHen: 6, weightRooster: 9, slaughterAge: 11, eggColor: null, imageUrl: '/images/breeds/freedom_ranger.jpg' },
+        'Giant Cochin': { type: 'Dual-Purpose', avgEggs: 160, weightHen: 11, weightRooster: 13, slaughterAge: 26, eggColor: 'Brown', imageUrl: '/images/breeds/giant_cochin.jpg' },
+        'Jersey Giant': { type: 'Dual-Purpose', avgEggs: 175, weightHen: 10, weightRooster: 13, slaughterAge: 24, eggColor: 'Brown', imageUrl: '/images/breeds/jersey_giant.jpg' },
+        'Buckeye': { type: 'Dual-Purpose', avgEggs: 190, weightHen: 6, weightRooster: 7, slaughterAge: 18, eggColor: 'Brown', imageUrl: '/images/breeds/buckeye.jpg' },
+        'Delaware': { type: 'Dual-Purpose', avgEggs: 250, weightHen: 6, weightRooster: 8, slaughterAge: 14, eggColor: 'Brown', imageUrl: '/images/breeds/delaware.jpg' }
         };
+
 
         let currentFlock = []; // Array to store { breed: 'BreedName', quantity: X } objects
 
@@ -834,8 +835,7 @@
                             cornerRadius: 8,
                         }
                     }
-                }
-            });
+                });
         }
 
 
