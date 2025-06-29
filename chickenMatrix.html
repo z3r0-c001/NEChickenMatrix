@@ -13,7 +13,11 @@
         /* Base body styles for font and background color */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F8F8F8; /* Bone White */
+            /* Changed background to use the provided image URL */
+            background-image: url('https://z3r0-c001.github.io/NEChickenMatrix/images/background/bg.png');
+            background-repeat: repeat; /* Adjust as needed: no-repeat, repeat-x, repeat-y */
+            background-attachment: fixed; /* Makes the background fixed while scrolling */
+            background-size: cover; /* Covers the entire background, adjust as needed */
             min-height: 100vh; /* Ensure background covers full viewport height */
             line-height: 1.7; 
             font-size: 1.1rem; 
@@ -62,7 +66,7 @@
             font-size: 1.8rem; /* Larger arrow */
             position: absolute;
             transform: translateY(30px); /* Adjust arrow position */
-            background-color: #F8F8F8; /* Match the new bone white background */
+            background-color: transparent; /* Changed to transparent to blend with image background */
             padding: 0 7px; /* Larger padding for arrow */
         }
         /* Horizontal line for branches in flowchart */
@@ -466,7 +470,7 @@
             </div>
         </section>
 
-        <section id="flockEconomics" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200 mb-32">
+        <section id="flockEconomics" class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200 mb-20">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#1D8A99] drop-shadow-sm">Flock Economics: Profit & Costs</h2>
             <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Estimate your potential profits and costs. Default values are based on average research, but feel free to adjust them to your local market for accurate projections!</p>
 
@@ -531,7 +535,7 @@
             </div>
         </section>
 
-        <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl border-2 border-dashed border-gray-200">
+        <section class="bg-white p-8 md:p-10 rounded-2xl shadow-xl mb-20 border-2 border-dashed border-gray-200">
             <h2 class="text-4xl font-bold text-center mb-4 text-[#FF6F00] drop-shadow-sm">Add a Custom Breed</h2>
             <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">Define your own chicken breed to add to your flock. Custom breeds will instantly appear in the breed selection dropdown for calculation.</p>
             <form id="customBreedForm" class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -587,12 +591,6 @@
     </footer>
 
     <script>
-        // Set the application background to use /images/background/bg.png
-        document.body.style.backgroundImage = "url('https://z3r0-c001.github.io/NEChickenMatrix/images/background/bg.png')";
-        document.body.style.backgroundSize = "cover";
-        document.body.style.backgroundRepeat = "repeat";
-        document.body.style.backgroundPosition = "center center";
-
         // Define an elegant and vibrant color palette for charts and accents
         const vibrantPalette = ['#1D8A99', '#FF6F00', '#2F4F4F', '#8B0000', '#DAA520', '#6A5ACD', '#DC143C', '#008080', '#DDA0DD', '#8FBC8F', '#BDB76B', '#CD853F'];
         // Teal, Dark Orange, Dark Slate Gray, Dark Red, Goldenrod, Slate Blue, Crimson, Teal, Plum, Dark Sea Green, Dark Khaki, Peru
@@ -706,7 +704,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -809,7 +808,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -906,7 +906,8 @@
                             }
                         }
                     }
-                });
+                }
+            });
         }
 
         /**
@@ -987,7 +988,8 @@
                             cornerRadius: 8,
                         }
                     }
-                });
+                }
+            });
         }
 
 
