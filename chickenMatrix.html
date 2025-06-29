@@ -805,7 +805,7 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom', // Changed from 'right' to 'bottom'
+                            position: 'right',
                             labels: {
                                 font: { size: 14 },
                                 color: '#333'
@@ -866,7 +866,7 @@
                 const optionCharacteristics = document.createElement('option');
                 optionCharacteristics.value = breedName;
                 optionCharacteristics.textContent = breedName;
-                breedCharacteristicsSelect.appendChild(optionCharacteristics);
+                breedSelectCharacteristics.appendChild(optionCharacteristics);
             });
 
             // Trigger initial display for characteristics section
