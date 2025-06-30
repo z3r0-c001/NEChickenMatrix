@@ -202,7 +202,7 @@
             <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
                 <h2 class="text-4xl font-bold text-center mb-4 text-[#1D8A99] drop-shadow-sm">Breed Weight Classes</h2>
                 <p class="text-xl text-gray-900 max-w-4xl mx-auto mb-10 leading-relaxed font-semibold text-center">The breeds we've listed fall into distinct weight categories. This chart shows the distribution, highlighting that the majority are substantial birds well-suited for cold climates.</p>
-                <div class="chart-container h-[285px] md:h-[332.5px]"> <canvas id="weightDistributionChart"></canvas>
+                <div class="chart-container h-[285px] md:h-[332.5px]"> <canvas id="weightDistributionChart" height="230"></canvas>
                 </div>
             </div>
         </section>
@@ -893,7 +893,7 @@
                             }
                         }
                     }
-                }
+                });
             });
 
             // Meat Producers Chart (Bar Chart - Weeks to Slaughter)
@@ -1024,7 +1024,7 @@
                             }
                         }
                     }
-                }
+                });
             });
 
             // Weight Distribution Chart (Pie Chart)
@@ -1308,6 +1308,7 @@
             const eggPriceDozenInput = document.getElementById('eggPriceDozenInput');
             const meatPriceLbInput = document.getElementById('meatPriceLbInput');
             const initialSetupCostInput = document.getElementById('initialSetupCostInput');
+           
             const economicResults = document.getElementById('economicResults');
 
             const economicInputs = [
