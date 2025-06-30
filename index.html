@@ -199,7 +199,7 @@
                     </div>
                 </div>
             </div>
-<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl">
+<div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl overflow-visible">
   <h2 class="text-4xl font-bold text-center mb-4 text-[#1D8A99] drop-shadow-sm">
     Breed Weight Classes
   </h2>
@@ -207,8 +207,9 @@
     The breeds we've listed fall into distinct weight categories. This chart shows the distribution, highlighting that the majority are substantial birds well-suited for cold climates.
   </p>
   <div class="chart-container h-[300px] md:h-[332.5px] w-full overflow-visible relative">
-    <canvas id="weightDistributionChart" class="w-full h-full"></canvas>
+    <canvas id="weightDistributionChart" class="w-full h-full relative z-10"></canvas>
   </div>
+</div>
 </div>
 </div>
 
