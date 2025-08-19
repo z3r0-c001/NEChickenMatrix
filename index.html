@@ -605,8 +605,8 @@
         <div class="container mx-auto px-6 text-center">
             <p class="text-lg">&copy; <span id="current-year"></span> The Good Supply Company</p>
             <div class="mt-4">
-                <img src="https://z3r0-c001.github.io/NEChickenMatrix/images/background/gsl3.png"
-                    alt="The Good Supply Company Logo" class="mx-auto h-72 w-auto object-contain mb-4">
+                <img src="https://z3r0-c001.github.io/NEChickenMatrix/images/background/waxer.png"
+                    alt="Good Supply Farm Logo" class="mx-auto h-72 w-auto object-contain mb-4">
             </div>
             <p class="text-md mt-2 opacity-80">Designed with passion for homesteaders.</p>
             <div class="mt-4 space-x-4">
@@ -620,39 +620,6 @@
         // Updated Data for the charts and breed characteristics
         const breedData = [
             {
-                name: "Golden Comet",
-                type: "Layer",
-                eggsPerYear: 320,
-                henWeight: 4.5,
-                roosterWeight: 6,
-                slaughterAgeWeeks: null,
-                eggColor: "Brown",
-                characteristics: "A highly prolific egg layer, known for rapid maturation and consistent brown egg production. Very docile and cold-hardy, making them excellent for beginners. Not ideal for meat.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/golden_comet.png"
-            },
-            {
-                name: "White Leghorn",
-                type: "Layer",
-                eggsPerYear: 310,
-                henWeight: 4.5,
-                roosterWeight: 6,
-                slaughterAgeWeeks: null,
-                eggColor: "White",
-                characteristics: "The quintessential white egg layer. Highly efficient and productive, but can be flighty and less cold-hardy than other breeds. Best for egg production, not meat.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/white_leghorn.png"
-            },
-            {
-                name: "Rhode Island Red",
-                type: "Dual-Purpose",
-                eggsPerYear: 275,
-                henWeight: 6.5,
-                roosterWeight: 8.5,
-                slaughterAgeWeeks: null, // As per new data, slaughterAge is null for RIR
-                eggColor: "Brown",
-                characteristics: "A popular dual-purpose breed, excellent layers of large brown eggs and good for meat. Hardy, active, and can be a bit assertive. Adaptable to various climates.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/rhode_island_red.png"
-            },
-            {
                 name: "Australorp",
                 type: "Dual-Purpose", // Changed from 'Layer/Dual' to 'Dual-Purpose'
                 eggsPerYear: 275,
@@ -662,72 +629,6 @@
                 eggColor: "Brown",
                 characteristics: "Known for their iridescent black-green plumage and gentle nature. Excellent layers, holding a world record for egg production. Also good meat birds. Hardy and active.",
                 imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/australorp.png"
-            },
-            {
-                name: "Easter Egger",
-                type: "Layer",
-                eggsPerYear: 250,
-                henWeight: 4,
-                roosterWeight: 5,
-                slaughterAgeWeeks: null,
-                eggColor: "Blue/Green", // Simplified from Blue/Green/Pink
-                characteristics: "Known for laying blue or green eggs. Ameraucanas are a specific breed; Easter Eggers are hybrids with Ameraucana traits. Generally friendly and cold-hardy. Primarily kept for novelty egg colors.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/easter_egger.png"
-            },
-            {
-                name: "Plymouth Rock",
-                type: "Dual-Purpose",
-                eggsPerYear: 250,
-                henWeight: 7.5,
-                roosterWeight: 9.5,
-                slaughterAgeWeeks: 18,
-                eggColor: "Brown",
-                characteristics: "A classic American dual-purpose breed, known for its docile temperament, good egg production, and meaty carcass. Very cold-hardy and a good choice for families. Barred Rock is a common variety.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/plymouth_rock.png"
-            },
-            {
-                name: "Wyandotte",
-                type: "Dual-Purpose",
-                eggsPerYear: 225,
-                henWeight: 6.5,
-                roosterWeight: 8.5,
-                slaughterAgeWeeks: 18,
-                eggColor: "Brown",
-                characteristics: "Beautiful, docile, and cold-hardy birds. Excellent dual-purpose breed, laying consistently and providing a good meat yield. Many color varieties exist, with Silver Laced being very popular.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/wyandotte.png"
-            },
-            {
-                name: "Orpington",
-                type: "Dual-Purpose",
-                eggsPerYear: 185,
-                henWeight: 8,
-                roosterWeight: 10,
-                slaughterAgeWeeks: 20,
-                eggColor: "Brown",
-                characteristics: "Large, fluffy, and extremely docile birds, making them wonderful pets and great for families. Good layers and provide a good amount of meat. Very cold-hardy due to their dense feathering.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/orpington.png"
-            },
-            {
-                name: "New Hampshire Red",
-                type: "Dual-Purpose",
-                eggsPerYear: 210,
-                henWeight: 6.5,
-                roosterWeight: 8.5,
-                slaughterAgeWeeks: 16,
-                eggColor: "Brown",
-                characteristics: "Developed from Rhode Island Reds, with an emphasis on faster growth and earlier feathering for meat production, while still being good layers. Energetic and cold-hardy.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/new_hampshire_red.png"
-            },
-            {
-                name: "Sussex",
-                type: "Dual-Purpose",
-                eggsPerYear: 260,
-                henWeight: 7,
-                roosterWeight: 9,
-                slaughterAgeWeeks: 18,
-                eggColor: "Light Brown", // Simplified from 'Light Brown/Tinted'
-                characteristics: "Docile, curious, and adaptable. A great dual-purpose breed, providing a good number of eggs and a decent carcass. Good foragers and cold-hardy. Light Sussex is the most common variety.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/sussex.png"
             },
             {
                 name: "Brahma",
@@ -741,15 +642,15 @@
                 imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/brahma.png"
             },
             {
-                name: "Cochin",
+                name: "Buckeye",
                 type: "Dual-Purpose",
-                eggsPerYear: 150,
-                henWeight: 8.5,
-                roosterWeight: 11,
-                slaughterAgeWeeks: 24,
+                eggsPerYear: 190,
+                henWeight: 6,
+                roosterWeight: 7,
+                slaughterAgeWeeks: 18,
                 eggColor: "Brown",
-                characteristics: "Large, fluffy, and docile birds known for their feathered legs. Good for both meat and ornamental purposes, and lay a fair number of brown eggs. Very cold-hardy and prone to broodiness.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/cochin.png"
+                characteristics: "Developed in Ohio specifically for cold climates, Buckeyes are active, calm, and good foragers. They are excellent dual-purpose birds, providing both eggs and meat. Known for their unique dark mahogany plumage.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/buckeye.png"
             },
             {
                 name: "Chantecler",
@@ -763,15 +664,15 @@
                 imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/chantecler.png"
             },
             {
-                name: "Marans",
+                name: "Cochin",
                 type: "Dual-Purpose",
-                eggsPerYear: 170,
-                henWeight: 7,
-                roosterWeight: 9,
-                slaughterAgeWeeks: 20,
-                eggColor: "Dark Brown (Chocolate)", // Consistent with original color
-                characteristics: "Prized for their beautiful, very dark brown eggs. Good dual-purpose birds with decent meat yield. Generally calm, but some lines can be flighty. Fairly cold-hardy.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/marans.png"
+                eggsPerYear: 150,
+                henWeight: 8.5,
+                roosterWeight: 11,
+                slaughterAgeWeeks: 24,
+                eggColor: "Brown",
+                characteristics: "Large, fluffy, and docile birds known for their feathered legs. Good for both meat and ornamental purposes, and lay a fair number of brown eggs. Very cold-hardy and prone to broodiness.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/cochin.png"
             },
             {
                 name: "Cornish Cross",
@@ -783,6 +684,28 @@
                 eggColor: "N/A", // Consistent with original code
                 characteristics: "The industry standard for broiler chickens, bred for extremely fast growth and large meat yield. Reach market weight in 8-10 weeks. Not suitable for egg production or long-term keeping.",
                 imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/cornish_cross.png"
+            },
+            {
+                name: "Delaware",
+                type: "Dual-Purpose",
+                eggsPerYear: 250,
+                henWeight: 6,
+                roosterWeight: 8,
+                slaughterAgeWeeks: 14,
+                eggColor: "Brown",
+                characteristics: "A heritage dual-purpose breed, known for its friendly temperament, good egg production, and excellent meat qualities. Active foragers and cold-hardy, with striking black and white plumage.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/deleware.png"
+            },
+            {
+                name: "Easter Egger",
+                type: "Layer",
+                eggsPerYear: 250,
+                henWeight: 4,
+                roosterWeight: 5,
+                slaughterAgeWeeks: null,
+                eggColor: "Blue/Green", // Simplified from Blue/Green/Pink
+                characteristics: "Known for laying blue or green eggs. Ameraucanas are a specific breed; Easter Eggers are hybrids with Ameraucana traits. Generally friendly and cold-hardy. Primarily kept for novelty egg colors.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/easter_egger.png"
             },
             {
                 name: "Freedom Ranger",
@@ -807,6 +730,17 @@
                 imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/giant_cochin.png"
             },
             {
+                name: "Golden Comet",
+                type: "Layer",
+                eggsPerYear: 320,
+                henWeight: 4.5,
+                roosterWeight: 6,
+                slaughterAgeWeeks: null,
+                eggColor: "Brown",
+                characteristics: "A highly prolific egg layer, known for rapid maturation and consistent brown egg production. Very docile and cold-hardy, making them excellent for beginners. Not ideal for meat.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/golden_comet.png"
+            },
+            {
                 name: "Jersey Giant",
                 type: "Dual-Purpose",
                 eggsPerYear: 175,
@@ -818,26 +752,92 @@
                 imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/jersey_giant.png"
             },
             {
-                name: "Buckeye",
+                name: "Marans",
                 type: "Dual-Purpose",
-                eggsPerYear: 190,
-                henWeight: 6,
-                roosterWeight: 7,
-                slaughterAgeWeeks: 18,
-                eggColor: "Brown",
-                characteristics: "Developed in Ohio specifically for cold climates, Buckeyes are active, calm, and good foragers. They are excellent dual-purpose birds, providing both eggs and meat. Known for their unique dark mahogany plumage.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/buckeye.png"
+                eggsPerYear: 170,
+                henWeight: 7,
+                roosterWeight: 9,
+                slaughterAgeWeeks: 20,
+                eggColor: "Dark Brown (Chocolate)", // Consistent with original color
+                characteristics: "Prized for their beautiful, very dark brown eggs. Good dual-purpose birds with decent meat yield. Generally calm, but some lines can be flighty. Fairly cold-hardy.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/marans.png"
             },
             {
-                name: "Delaware",
+                name: "New Hampshire Red",
+                type: "Dual-Purpose",
+                eggsPerYear: 210,
+                henWeight: 6.5,
+                roosterWeight: 8.5,
+                slaughterAgeWeeks: 16,
+                eggColor: "Brown",
+                characteristics: "Developed from Rhode Island Reds, with an emphasis on faster growth and earlier feathering for meat production, while still being good layers. Energetic and cold-hardy.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/new_hampshire_red.png"
+            },
+            {
+                name: "Orpington",
+                type: "Dual-Purpose",
+                eggsPerYear: 185,
+                henWeight: 8,
+                roosterWeight: 10,
+                slaughterAgeWeeks: 20,
+                eggColor: "Brown",
+                characteristics: "Large, fluffy, and extremely docile birds, making them wonderful pets and great for families. Good layers and provide a good amount of meat. Very cold-hardy due to their dense feathering.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/orpington.png"
+            },
+            {
+                name: "Plymouth Rock",
                 type: "Dual-Purpose",
                 eggsPerYear: 250,
-                henWeight: 6,
-                roosterWeight: 8,
-                slaughterAgeWeeks: 14,
+                henWeight: 7.5,
+                roosterWeight: 9.5,
+                slaughterAgeWeeks: 18,
                 eggColor: "Brown",
-                characteristics: "A heritage dual-purpose breed, known for its friendly temperament, good egg production, and excellent meat qualities. Active foragers and cold-hardy, with striking black and white plumage.",
-                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/deleware.png"
+                characteristics: "A classic American dual-purpose breed, known for its docile temperament, good egg production, and meaty carcass. Very cold-hardy and a good choice for families. Barred Rock is a common variety.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/plymouth_rock.png"
+            },
+            {
+                name: "Rhode Island Red",
+                type: "Dual-Purpose",
+                eggsPerYear: 275,
+                henWeight: 6.5,
+                roosterWeight: 8.5,
+                slaughterAgeWeeks: null, // As per new data, slaughterAge is null for RIR
+                eggColor: "Brown",
+                characteristics: "A popular dual-purpose breed, excellent layers of large brown eggs and good for meat. Hardy, active, and can be a bit assertive. Adaptable to various climates.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/rhode_island_red.png"
+            },
+            {
+                name: "Sussex",
+                type: "Dual-Purpose",
+                eggsPerYear: 260,
+                henWeight: 7,
+                roosterWeight: 9,
+                slaughterAgeWeeks: 18,
+                eggColor: "Light Brown", // Simplified from 'Light Brown/Tinted'
+                characteristics: "Docile, curious, and adaptable. A great dual-purpose breed, providing a good number of eggs and a decent carcass. Good foragers and cold-hardy. Light Sussex is the most common variety.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/sussex.png"
+            },
+            {
+                name: "White Leghorn",
+                type: "Layer",
+                eggsPerYear: 310,
+                henWeight: 4.5,
+                roosterWeight: 6,
+                slaughterAgeWeeks: null,
+                eggColor: "White",
+                characteristics: "The quintessential white egg layer. Highly efficient and productive, but can be flighty and less cold-hardy than other breeds. Best for egg production, not meat.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/white_leghorn.png"
+            },
+            {
+                name: "Wyandotte",
+                type: "Dual-Purpose",
+                eggsPerYear: 225,
+                henWeight: 6.5,
+                roosterWeight: 8.5,
+                slaughterAgeWeeks: 18,
+                eggColor: "Brown",
+                characteristics: "Beautiful, docile, and cold-hardy birds. Excellent dual-purpose breed, laying consistently and providing a good meat yield. Many color varieties exist, with Silver Laced being very popular.",
+                imageUrl: "https://z3r0-c001.github.io/NEChickenMatrix/images/breeds/wyandotte.png"
             }
         ];
 
